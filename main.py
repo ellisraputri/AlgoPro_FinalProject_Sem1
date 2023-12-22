@@ -90,6 +90,8 @@ def scene_one():
         pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
 
         dialog1.running_message(screen)
+        dialog1.scene_1_function(displays.boy_icon, displays.boy_text_icon, displays.vampire_icon, displays.vampire_text_icon, screen)
+        
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -99,6 +101,8 @@ def scene_one():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                     dialog1.checking_message_done()
+                    if(dialog1.active_message == 17):
+                        game_one()
             
             #click to move on to next dialog
             if event.type == pygame.MOUSEBUTTONDOWN:

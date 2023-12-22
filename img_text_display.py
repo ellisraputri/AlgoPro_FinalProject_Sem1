@@ -38,6 +38,18 @@ class Displaying():
         self.scene1_bg = pygame.image.load("Assets/images/background/scene_1.png").convert_alpha()
         self.scene1_bg = pygame.transform.scale(self.scene1_bg, (self.scene1_bg.get_width()*1.5, self.scene1_bg.get_height()*1.5))
 
+        self.boy_icon = pygame.image.load("Assets/images/icon/boy_icon.png").convert_alpha()
+        self.boy_icon = pygame.transform.scale(self.boy_icon, (self.boy_icon.get_width()*5.5, self.boy_icon.get_height()*5.5))
+        
+        self.vampire_icon = pygame.image.load("Assets/images/icon/vampire_icon.png").convert_alpha()
+        self.vampire_icon = pygame.transform.scale(self.vampire_icon, (self.vampire_icon.get_width()*3.5, self.vampire_icon.get_height()*3.5))
+
+        self.boy_text_icon = pygame.image.load("Assets/images/icon/boy_text_icon.png").convert_alpha()
+        self.boy_text_icon = pygame.transform.scale(self.boy_text_icon, (self.boy_text_icon.get_width()*0.35, self.boy_text_icon.get_height()*0.35))
+
+        self.vampire_text_icon = pygame.image.load("Assets/images/icon/vampire_text_icon.png").convert_alpha()
+        self.vampire_text_icon = pygame.transform.scale(self.vampire_text_icon, (self.vampire_text_icon.get_width()*0.35, self.vampire_text_icon.get_height()*0.35))
+
         #text
         self.font =pygame.font.Font('Assets/font/Pixeltype.ttf',40)
 
