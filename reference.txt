@@ -1,0 +1,21 @@
+tutorial:
+https://www.youtube.com/watch?v=0RryiSjpJn0
+https://youtube.com/playlist?list=PLjcN1EyupaQnvpv61iriF8Ax9dKra-MhZ&si=aTzLqczT_tG4VgEt
+
+
+
+background:
+https://edermunizz.itch.io/free-pixel-art-forest
+https://saurabhkgp.itch.io/pixel-art-forest-background-simple-seamless-parallax-ready-for-2d-platformer-s
+https://anokolisa.itch.io/moon-graveyard?download
+
+
+sprite
+main char: https://brullov.itch.io/generic-char-asset
+werewolf: https://free-game-assets.itch.io/free-werewolf-sprite-sheets-pixel-art
+vampire: https://free-game-assets.itch.io/free-vampire-pixel-art-sprite-sheets
+
+
+other
+cerberus: https://www.brandcrowd.com/maker/logo/cerberus-wolf-gaming-925912?isSearch=True
+scroll: https://www.freepik.com/premium-vector/pixel-scroll-ribbon-ancient-manuscript-parchment-banner_47929261.htm
