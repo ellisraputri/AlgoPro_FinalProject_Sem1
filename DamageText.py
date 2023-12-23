@@ -3,7 +3,7 @@ import pygame
 class DamageText(pygame.sprite.Sprite):
     def __init__(self, x, y, damage, colour):
         pygame.sprite.Sprite.__init__(self)
-        font = pygame.font.SysFont('Times New Roman', 26)
+        font =pygame.font.Font('Assets/font/Pixeltype.ttf',40)
         self.image = font.render(damage, True, colour)
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)

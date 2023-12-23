@@ -23,12 +23,12 @@ class GameFunctions1():
         pygame.mouse.set_visible(True)
         self.pos = pygame.mouse.get_pos()
     
-    def attack_bandit(self, bandit_list):
-        for count, bandit in enumerate(bandit_list):
-            if bandit.rect.collidepoint(self.pos):
-                if self.click == True and bandit.alive==True:
+    def attack_enemy(self, enemy_list):
+        for count, enemy in enumerate(enemy_list):
+            if enemy.rect.collidepoint(self.pos):
+                if self.click == True and enemy.alive==True:
                     self.attack = True
-                    self.target = bandit_list[count]
+                    self.target = enemy_list[count]
     
     def player_action(self, knight):
         if knight.alive == True:
@@ -36,7 +36,13 @@ class GameFunctions1():
                 self.action_cooldown +=1
                 if self.action_cooldown >= self.action_waittime:
                     if self.attack ==True and self.target != None:
-                        knight.attack(self.target)
+                        damage = knight.attack(self.target)
+
+                        #create damage text
+                        damage_text = DamageText(self.target.rect.centerx, self.target.rect.centery-40, str(damage), (255,0,0))
+                        self.damage_text_group.add(damage_text)
+
+                        #go to next turn
                         self.current_fighter += 1
                         self.action_cooldown=0
 
@@ -48,7 +54,7 @@ class GameFunctions1():
                                 self.heal_amount = knight.max_hp - knight.hp
                         knight.hp += self.heal_amount
                         knight.potions -=1
-                        damage_text = DamageText(knight.rect.centerx, knight.rect.y, str(self.heal_amount), (0,255,0))
+                        damage_text = DamageText(knight.rect.centerx, knight.rect.centery-40, str(self.heal_amount), (0,255,0))
                         self.damage_text_group.add(damage_text)
                         self.current_fighter += 1
                         self.action_cooldown=0
@@ -56,29 +62,34 @@ class GameFunctions1():
             self.game_over = -1
         
 
-    def bandit_action(self, bandit_list, knight):
-        for count,bandit in enumerate(bandit_list):
-            #bandit 1 = current fighter 2, bandit 2 = current fighter 3
+    def enemy_action(self, enemy_list, knight):
+        for count,enemy in enumerate(enemy_list):
+            #enemy 1 = current fighter 2, enemy 2 = current fighter 3
             if self.current_fighter == 2 + count:
-                if bandit.alive ==True:
+                if enemy.alive ==True:
                     self.action_cooldown +=1
                     if self.action_cooldown >= self.action_waittime:
-                        #check if bandit need heal
-                        if(bandit.hp / bandit.max_hp < 0.5 and bandit.potions>0):
-                            if bandit.max_hp > bandit.hp + self.potion_effect:
+                        #check if enemy need heal
+                        if(enemy.hp / enemy.max_hp < 0.5 and enemy.potions>0):
+                            if enemy.max_hp > enemy.hp + self.potion_effect:
                                 self.heal_amount = self.potion_effect
                             else:
-                                self.heal_amount = bandit.max_hp - bandit.hp
-                            bandit.hp += self.heal_amount
-                            bandit.potions -=1
-                            damage_text = DamageText(bandit.rect.centerx, bandit.rect.y, str(self.heal_amount), (0,255,0))
+                                self.heal_amount = enemy.max_hp - enemy.hp
+                            enemy.hp += self.heal_amount
+                            enemy.potions -=1
+                            damage_text = DamageText(enemy.rect.centerx, enemy.rect.centery -40, str(self.heal_amount), (0,255,0))
                             self.damage_text_group.add(damage_text)
                             self.current_fighter += 1
                             self.action_cooldown=0
 
                         #attack
                         else:
-                            bandit.attack(knight)
+                            damage = enemy.attack(knight)
+
+                            #create damage text
+                            damage_text = DamageText(knight.rect.centerx, knight.rect.centery -40, str(damage), (255,0,0))
+                            self.damage_text_group.add(damage_text)
+
                             self.current_fighter += 1
                             self.action_cooldown = 0
                 else:
@@ -89,12 +100,12 @@ class GameFunctions1():
         if self.current_fighter > self.total_fighters:
             self.current_fighter = 1
     
-    def check_bandit_alive(self, bandit_list):
-        self.alive_bandits =0
-        for bandit in bandit_list:
-            if bandit.alive == True:
-                self.alive_bandits+=1
-        if self.alive_bandits == 0:
+    def check_enemy_alive(self, enemy_list):
+        self.alive_enemies =0
+        for enemy in enemy_list:
+            if enemy.alive == True:
+                self.alive_enemies+=1
+        if self.alive_enemies == 0:
             self.game_over = 1
     
     

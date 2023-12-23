@@ -1,6 +1,5 @@
 import pygame
 import random
-from DamageText import DamageText
 
 class Fighter():
     def __init__(self, x, y, name, max_hp, strength, potions):
@@ -17,38 +16,72 @@ class Fighter():
         self.update_time = pygame.time.get_ticks()
         self.damage_text_group = pygame.sprite.Group()
 
-        #idle images
-        temp_list = []
-        for i in range(8):
-            img = pygame.image.load(f"Assets/images/{self.name}/idle/{i}.png").convert_alpha()
-            img = pygame.transform.scale(img, (img.get_width()*3, img.get_height()*3))
-            temp_list.append(img)
-        self.animation_list.append(temp_list)
+        if self.name == 'Boy':
+            #idle images
+            temp_list = []
+            for i in range(6):
+                img = pygame.image.load(f"Assets/images/{self.name}/Idle/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*4.5, img.get_height()*4.5))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #attack images
+            temp_list = []
+            for i in range(8):
+                img = pygame.image.load(f"Assets/images/{self.name}/Attack/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*4.5, img.get_height()*4.5))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #hurt images
+            temp_list = []
+            for i in range(4):
+                img = pygame.image.load(f"Assets/images/{self.name}/Hurt/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*4.5, img.get_height()*4.5))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #death images
+            temp_list = []
+            for i in range(12):
+                img = pygame.image.load(f"Assets/images/{self.name}/Death/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*4.5, img.get_height()*4.5))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
 
 
-        #attack images
-        temp_list = []
-        for i in range(8):
-            img = pygame.image.load(f"Assets/images/{self.name}/attack/{i}.png").convert_alpha()
-            img = pygame.transform.scale(img, (img.get_width()*3, img.get_height()*3))
-            temp_list.append(img)
-        self.animation_list.append(temp_list)
+        elif self.name == 'Wolf1' or self.name =='Wolf2' or self.name =='Wolf3':
+            #idle images
+            temp_list = []
+            for i in range(8):
+                img = pygame.image.load(f"Assets/images/{self.name}/Idle/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*1.7, img.get_height()*1.7))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
 
-        #hurt images
-        temp_list = []
-        for i in range(3):
-            img = pygame.image.load(f"Assets/images/{self.name}/hurt/{i}.png").convert_alpha()
-            img = pygame.transform.scale(img, (img.get_width()*3, img.get_height()*3))
-            temp_list.append(img)
-        self.animation_list.append(temp_list)
+            #attack images
+            temp_list = []
+            for i in range(6):
+                img = pygame.image.load(f"Assets/images/{self.name}/Attack/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*1.7, img.get_height()*1.7))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
 
-        #death images
-        temp_list = []
-        for i in range(10):
-            img = pygame.image.load(f"Assets/images/{self.name}/death/{i}.png").convert_alpha()
-            img = pygame.transform.scale(img, (img.get_width()*3, img.get_height()*3))
-            temp_list.append(img)
-        self.animation_list.append(temp_list)
+            #hurt images
+            temp_list = []
+            for i in range(2):
+                img = pygame.image.load(f"Assets/images/{self.name}/Hurt/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*1.7, img.get_height()*1.7))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #death images
+            temp_list = []
+            for i in range(2):
+                img = pygame.image.load(f"Assets/images/{self.name}/Death/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*1.7, img.get_height()*1.7))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
 
 
         self.image = self.animation_list[self.action][self.frame_index]
@@ -80,7 +113,7 @@ class Fighter():
     def attack (self, target):
         #deal damage to enemy
         rand = random.randint(-5, 5)
-        damage = self.strength + rand
+        damage = abs(self.strength + rand)
         target.hp -= damage
         target.hurt()
 
@@ -90,16 +123,13 @@ class Fighter():
             target.alive = False
             target.death()
 
-        
-        #create damage text
-        damage_text = DamageText(target.rect.centerx, target.rect.y, str(damage), (255,0,0))
-        self.damage_text_group.add(damage_text)
-
 
         #attack animations
         self.action =1
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
+
+        return damage
 
 
     def hurt(self):

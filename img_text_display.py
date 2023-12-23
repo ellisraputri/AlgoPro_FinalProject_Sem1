@@ -1,4 +1,5 @@
 import pygame
+from transition import Transition
 
 class Displaying():
     def __init__(self):
@@ -25,6 +26,7 @@ class Displaying():
         self.victory_img = pygame.image.load("Assets/images/icon/victory.png").convert_alpha()
         self.defeat_img = pygame.image.load("Assets/images/icon/defeat.png").convert_alpha()
         self.restart_img = pygame.image.load("Assets/images/icon/restart.png").convert_alpha()
+        self.next_stage_img = pygame.image.load("Assets/images/icon/next_stage.png").convert_alpha()
 
         self.new_game_img = pygame.image.load("Assets/images/icon/button_main_1.png").convert_alpha()
         self.new_game_img = pygame.transform.scale(self.new_game_img, (self.new_game_img.get_width()*0.45, self.new_game_img.get_height()*0.45))
@@ -50,6 +52,11 @@ class Displaying():
         self.vampire_text_icon = pygame.image.load("Assets/images/icon/vampire_text_icon.png").convert_alpha()
         self.vampire_text_icon = pygame.transform.scale(self.vampire_text_icon, (self.vampire_text_icon.get_width()*0.35, self.vampire_text_icon.get_height()*0.35))
 
+        self.skip_button = pygame.image.load("Assets/images/icon/skip_button.png").convert_alpha()
+
+        self.fight1 = pygame.image.load("Assets/images/icon/fight1.png").convert_alpha()
+        self.fight1 = pygame.transform.scale(self.fight1, (self.fight1.get_width()*0.35, self.fight1.get_height()*0.35))
+
         #text
         self.font =pygame.font.Font('Assets/font/Pixeltype.ttf',40)
 
@@ -57,14 +64,14 @@ class Displaying():
     def draw_bg(self,screen,background):
         screen.blit(background,(0,0))
 
-    def draw_panel(self,screen, screen_height, bottom_panel, knight, bandit_list):
+    def draw_panel(self,screen, screen_height, bottom_panel, knight, enemy_list):
         #draw panel rectangle
         screen.blit(self.panel_image, (0, screen_height - bottom_panel))
         #show knight stats
-        self.draw_text(f'{knight.name} HP: {knight.hp}', self.font, (255,0,0), 100, screen_height-bottom_panel+10, screen, 40)
+        self.draw_text(f'{knight.name} HP: {knight.hp}', self.font, (255,0,0), 135, screen_height-bottom_panel+25, screen, 40)
         #show bandit stats
-        for count, i in enumerate(bandit_list):
-            self.draw_text(f'{i.name} HP: {i.hp}', self.font, (255,0,0), 550, screen_height-bottom_panel+10 + count*60, screen, 40)
+        for count, i in enumerate(enemy_list):
+            self.draw_text(f'Black Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
 
     def draw_text (self, text, font, text_col, x, y, screen, size):
         self.font =pygame.font.Font('Assets/font/Pixeltype.ttf',size)
@@ -74,13 +81,17 @@ class Displaying():
 
     def draw_sword (self, screen, pos):
         screen.blit(self.sword_image, pos)
-    
-    def draw_victory(self, screen):
-        screen.blit(self.victory_img, (250,50))
-    
-    def draw_defeat(self, screen):
-        screen.blit(self.defeat_img, (290,50))
 
     def draw_buttons(self, screen, image, x, y):
         image_rect = image.get_rect(center=(x,y))
         screen.blit(image, image_rect)
+
+
+class FadeTransition():
+    def __init__(self, next_state, screen_width, screen_height):
+        self.next_state = next_state
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+        self.transition = Transition(self.next_state, self.screen_width, self.screen_height)
+    def running(self):
+        self.transition.play()
