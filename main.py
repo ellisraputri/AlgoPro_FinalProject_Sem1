@@ -43,7 +43,7 @@ def main_menu():
         #checking mouse collisions
         if new_game_rect.collidepoint((mx, my)):
             if click:
-                game_one()
+                scene_four()
         if continue_game_rect.collidepoint((mx, my)):
             if click:
                 pass
@@ -92,7 +92,7 @@ def scene_one():
         dialog1.running_message(screen)
 
         #show character in corresponding part of story
-        dialog1.scene_1_function(displays.boy_icon, displays.boy_text_icon, displays.vampire_icon, displays.vampire_text_icon, screen)
+        dialog1.scene_1_function(displays.boy_icon, displays.boy_text_icon, displays.vampire_icon, displays.vampire_text_icon, displays.object_scroll, screen)
         
         skip_button = Button(screen, 820, 50, displays.skip_button, 330, 50)
         skip_button.draw()
@@ -104,12 +104,13 @@ def scene_one():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+                sys.exit()
             
             #press enter or space to move on to next dialog
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                     dialog1.checking_message_done()
-                    if(dialog1.active_message == 17):
+                    if(dialog1.active_message == 18):
                         scene_done = True
                 if event.key == pygame.K_ESCAPE:
                     main_menu()
@@ -124,14 +125,13 @@ def scene_one():
                     dialog1.checking_message_done()
         
         pygame.display.update()
-    pygame.quit()
 
 
 def game_instruction():
     scene_done = False
     all=["Game Instructions:", "1. Click on the enemies to attack them.", "2. Click on the potion button to heal.",
-            "3. Be careful not to die.", "4. Good luck!", " ", "Press space to continue"]
-    transition1 = FadeTransition(game_one, displays.screen_width, displays.screen_height)
+            "3. Choose between attack or heal in each turn.", "4. Be careful and good luck!", " ", "Press space to continue"]
+    transition2 = FadeTransition(game_one, displays.screen_width, displays.screen_height)
 
     run = True
     while run:
@@ -145,11 +145,12 @@ def game_instruction():
             height+=60
 
         if scene_done:
-            transition1.running()
+            transition2.running()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+                sys.exit()
             
             #press enter or space to move on to next dialog
             if event.type == pygame.KEYDOWN:
@@ -159,12 +160,11 @@ def game_instruction():
                     main_menu()
         
         pygame.display.update()
-    pygame.quit()
-
+    
 
 def game_one():
     #game function
-    game1 = GameFunctions1()
+    game1 = GameFunctions1(3)
 
     #create fighter
     knight = Fighter(270, 300, 'Boy', 30, 10, 3)
@@ -253,7 +253,7 @@ def game_one():
             if game1.game_over == 1:
                 displays.draw_buttons(screen, displays.victory_img, 500, 60)
                 if next_stage_button.draw():
-                    pass
+                    game_two()
 
             elif game1.game_over == -1:
                 displays.draw_buttons(screen, displays.defeat_img, 500, 60)
@@ -280,6 +280,527 @@ def game_one():
                 if event.key == pygame.K_ESCAPE:
                     main_menu()
 
+        pygame.display.update()
+
+
+def game_two():
+    #game function
+    game2 = GameFunctions1(3)
+
+    #create fighter
+    knight = Fighter(270, 300, 'Boy', 30, 10, 3)
+    wolf2_1 = Fighter(650, 310, 'Wolf2', 15, 4, 1)
+    wolf2_2 = Fighter(800, 310, 'Wolf2', 15, 4, 1)
+
+    wolf2_list = []
+    wolf2_list.append(wolf2_1)
+    wolf2_list.append(wolf2_2)
+
+    knight_health_bar = HealthBar(70, displays.screen_height - displays.bottom_panel + 40, knight.hp, knight.max_hp)
+    wolf2_1_health_bar = HealthBar(550, displays.screen_height - displays.bottom_panel + 40, wolf2_1.hp, wolf2_1.max_hp)
+    wolf2_2_health_bar = HealthBar(550, displays.screen_height - displays.bottom_panel + 100, wolf2_2.hp, wolf2_2.max_hp)
+
+    #create button
+    potion_button = Button(screen, 100, displays.screen_height-displays.bottom_panel+105, displays.potion_img, 64,64)
+    restart_button = Button(screen, 500, 110, displays.restart_img, 120, 30)
+    next_stage_button = Button(screen, 500, 122, displays.next_stage_img, 160, 40)
+
+    #game loop
+    run = True
+    while run:
+        #setting up the frame rate
+        clock.tick(fps)
+
+        #draw background and panel
+        displays.draw_bg(screen, displays.bg_image)
+        displays.draw_panel(screen, displays.screen_height, displays.bottom_panel, knight, wolf2_list)
+        displays.draw_buttons(screen, displays.fight2, 870, 50)
+
+        #draw healthbar 
+        knight_health_bar.draw(knight.hp, screen)
+        wolf2_1_health_bar.draw(wolf2_1.hp, screen)
+        wolf2_2_health_bar.draw(wolf2_2.hp, screen)
+
+        #draw knight
+        knight.draw(screen)
+        knight.update()
+
+        #draw enemy
+        for wolf2 in wolf2_list:
+            wolf2.draw(screen)
+            wolf2.update()
+
+        #draw damage text
+        game2.damage_text_group.update()
+        game2.damage_text_group.draw(screen)
+
+        #control player action
+        #reset action variable
+        game2.reset_state()
+
+        game2.attack_enemy(wolf2_list)
+        for wolf2 in wolf2_list:
+            if wolf2.rect.collidepoint(game2.pos):
+                #hide mouse
+                pygame.mouse.set_visible(False)
+                #show sword
+                displays.draw_sword(screen, game2.pos)
+
+        #displaying potion button
+        #button click 
+        if potion_button.draw():
+            game2.potion = True
+        #show number potion remaining
+        displays.draw_text(str(knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
+        
+
+        if game2.game_over == 0:
+            #player action 
+            game2.player_action(knight)
+
+            #enemy action 
+            game2.enemy_action(wolf2_list, knight)
+
+            #check all action
+            game2.check_turn()
+        
+        
+        #check if all enemies are death
+        game2.check_enemy_alive(wolf2_list)
+
+
+        #check if game is over
+        if game2.game_over != 0:
+            if game2.game_over == 1:
+                displays.draw_buttons(screen, displays.victory_img, 500, 60)
+                if next_stage_button.draw():
+                    game_three()
+
+            elif game2.game_over == -1:
+                displays.draw_buttons(screen, displays.defeat_img, 500, 60)
+                if restart_button.draw():
+                    knight.reset()
+                    for wolf2 in wolf2_list:
+                        wolf2.reset()
+                    game2.current_fighter =1
+                    game2.action_cooldown = 0
+                    game2.game_over = 0
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                game2.click = True
+            else:
+                game2.click = False
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    main_menu()
+
+        pygame.display.update()
+
+
+def game_three():
+    #game function
+    game3 = GameFunctions1(3)
+
+    #create fighter
+    knight = Fighter(270, 300, 'Boy', 30, 11, 3)
+    wolf3_1 = Fighter(650, 310, 'Wolf3', 20, 5, 2)
+    wolf3_2 = Fighter(800, 310, 'Wolf3', 20, 5, 1)
+
+    wolf3_list = []
+    wolf3_list.append(wolf3_1)
+    wolf3_list.append(wolf3_2)
+
+    knight_health_bar = HealthBar(70, displays.screen_height - displays.bottom_panel + 40, knight.hp, knight.max_hp)
+    wolf3_1_health_bar = HealthBar(550, displays.screen_height - displays.bottom_panel + 40, wolf3_1.hp, wolf3_1.max_hp)
+    wolf3_2_health_bar = HealthBar(550, displays.screen_height - displays.bottom_panel + 100, wolf3_2.hp, wolf3_2.max_hp)
+
+    #create button
+    potion_button = Button(screen, 100, displays.screen_height-displays.bottom_panel+105, displays.potion_img, 64,64)
+    restart_button = Button(screen, 500, 110, displays.restart_img, 120, 30)
+    next_stage_button = Button(screen, 500, 122, displays.next_stage_img, 160, 40)
+
+    #game loop
+    run = True
+    while run:
+        #setting up the frame rate
+        clock.tick(fps)
+
+        #draw background and panel
+        displays.draw_bg(screen, displays.bg_image)
+        displays.draw_panel(screen, displays.screen_height, displays.bottom_panel, knight, wolf3_list)
+        displays.draw_buttons(screen, displays.fight3, 870, 50)
+
+        #draw healthbar 
+        knight_health_bar.draw(knight.hp, screen)
+        wolf3_1_health_bar.draw(wolf3_1.hp, screen)
+        wolf3_2_health_bar.draw(wolf3_2.hp, screen)
+
+        #draw knight
+        knight.draw(screen)
+        knight.update()
+
+        #draw enemy
+        for wolf3 in wolf3_list:
+            wolf3.draw(screen)
+            wolf3.update()
+
+        #draw damage text
+        game3.damage_text_group.update()
+        game3.damage_text_group.draw(screen)
+
+        #control player action
+        #reset action variable
+        game3.reset_state()
+
+        game3.attack_enemy(wolf3_list)
+        for wolf3 in wolf3_list:
+            if wolf3.rect.collidepoint(game3.pos):
+                #hide mouse
+                pygame.mouse.set_visible(False)
+                #show sword
+                displays.draw_sword(screen, game3.pos)
+
+        #displaying potion button
+        #button click 
+        if potion_button.draw():
+            game3.potion = True
+        #show number potion remaining
+        displays.draw_text(str(knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
+        
+
+        if game3.game_over == 0:
+            #player action 
+            game3.player_action(knight)
+
+            #enemy action 
+            game3.enemy_action(wolf3_list, knight)
+
+            #check all action
+            game3.check_turn()
+        
+        
+        #check if all enemies are death
+        game3.check_enemy_alive(wolf3_list)
+
+
+        #check if game is over
+        if game3.game_over != 0:
+            if game3.game_over == 1:
+                displays.draw_buttons(screen, displays.victory_img, 500, 60)
+                if next_stage_button.draw():
+                    scene_two()
+
+            elif game3.game_over == -1:
+                displays.draw_buttons(screen, displays.defeat_img, 500, 60)
+                if restart_button.draw():
+                    knight.reset()
+                    for wolf3 in wolf3_list:
+                        wolf3.reset()
+                    game3.current_fighter =1
+                    game3.action_cooldown = 0
+                    game3.game_over = 0
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                game3.click = True
+            else:
+                game3.click = False
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    main_menu()
+
+        pygame.display.update()
+
+
+def scene_two():
+    skip = False
+    scene_done = False
+    myfile=open('dialog2_text.txt','rt')
+    all=myfile.readlines()
+
+    dialog2 = DialogText(displays.font, all)
+    transition3 = FadeTransition(scene_three, displays.screen_width, displays.screen_height)
+
+    run = True
+    while run:
+        displays.draw_bg(screen, displays.scene2_bg)
+        clock.tick(fps)
+        pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
+
+        #run the message
+        dialog2.running_message(screen)
+
+        #show character in corresponding part of story
+        dialog2.scene_2_function(displays.boy_icon, displays.boy_text_icon, displays.castle, screen)
+        
+        skip_button = Button(screen, 820, 50, displays.skip_button, 330, 50)
+        skip_button.draw()
+
+        #when user skips or user have done the scene, then run transition
+        if skip or scene_done:
+            transition3.running()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                sys.exit()
+            
+            #press enter or space to move on to next dialog
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    dialog2.checking_message_done()
+                    if(dialog2.active_message == 12):
+                        scene_done = True
+                if event.key == pygame.K_ESCAPE:
+                    main_menu()
+                
+                #press s to skip
+                if event.key == pygame.K_s:
+                    skip=True
+            
+            #click to move on to next dialog
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    dialog2.checking_message_done()
+        
+        pygame.display.update()
+
+
+def scene_three():
+    skip = False
+    scene_done = False
+    myfile=open('dialog3_text.txt','rt')
+    all=myfile.readlines()
+
+    dialog3 = DialogText(displays.font, all)
+    transition4 = FadeTransition(game_four, displays.screen_width, displays.screen_height)
+
+    run = True
+    while run:
+        displays.draw_bg(screen, displays.scene3_bg)
+        clock.tick(fps)
+        pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
+
+        #run the message
+        dialog3.running_message(screen)
+
+        #show character in corresponding part of story
+        dialog3.scene_3_function(displays.boy_icon, displays.boy_text_icon, displays.man_icon, displays.man_text_icon, screen)
+        
+        skip_button = Button(screen, 820, 50, displays.skip_button, 330, 50)
+        skip_button.draw()
+
+        #when user skips or user have done the scene, then run transition
+        if skip or scene_done:
+            transition4.running()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                sys.exit()
+            
+            #press enter or space to move on to next dialog
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    dialog3.checking_message_done()
+                    if(dialog3.active_message == 16):
+                        scene_done = True
+                if event.key == pygame.K_ESCAPE:
+                    main_menu()
+                
+                #press s to skip
+                if event.key == pygame.K_s:
+                    skip=True
+            
+            #click to move on to next dialog
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    dialog3.checking_message_done()
+        
+        pygame.display.update()
+
+
+def game_four():
+    #game function
+    game4 = GameFunctions1(2)
+
+    #create fighter
+    knight = Fighter(240, 320, 'Boy', 30, 11, 3)
+    man = Fighter(700, 320, 'Man', 30, 5, 3)
+
+    man_list = []
+    man_list.append(man)
+
+    knight_health_bar = HealthBar(70, displays.screen_height - displays.bottom_panel + 40, knight.hp, knight.max_hp)
+    man_health_bar = HealthBar(550, displays.screen_height - displays.bottom_panel + 40, man.hp, man.max_hp)
+    
+    #create button
+    potion_button = Button(screen, 100, displays.screen_height-displays.bottom_panel+105, displays.potion_img, 64,64)
+    restart_button = Button(screen, 500, 110, displays.restart_img, 120, 30)
+    next_stage_button = Button(screen, 500, 122, displays.next_stage_img, 160, 40)
+
+    #game loop
+    run = True
+    while run:
+        #setting up the frame rate
+        clock.tick(fps)
+
+        #draw background and panel
+        displays.draw_bg(screen, displays.scene3_bg)
+        displays.draw_panel(screen, displays.screen_height, displays.bottom_panel, knight, man_list)
+        displays.draw_buttons(screen, displays.fight4, 870, 50)
+
+        #draw healthbar 
+        knight_health_bar.draw(knight.hp, screen)
+        man_health_bar.draw(man.hp, screen)
+
+        #draw knight
+        knight.draw(screen)
+        knight.update()
+
+        #draw enemy
+        for mann in man_list:
+            mann.draw(screen)
+            mann.update()
+
+        #draw damage text
+        game4.damage_text_group.update()
+        game4.damage_text_group.draw(screen)
+
+        #control player action
+        #reset action variable
+        game4.reset_state()
+
+        game4.attack_enemy(man_list)
+        for mann in man_list:
+            if mann.rect.collidepoint(game4.pos):
+                #hide mouse
+                pygame.mouse.set_visible(False)
+                #show sword
+                displays.draw_sword(screen, game4.pos)
+
+        #displaying potion button
+        #button click 
+        if potion_button.draw():
+            game4.potion = True
+        #show number potion remaining
+        displays.draw_text(str(knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
+        
+
+        if game4.game_over == 0:
+            #player action 
+            game4.player_action(knight)
+
+            #enemy action 
+            game4.enemy_action(man_list, knight)
+
+            #check all action
+            game4.check_turn()
+        
+        
+        #check if all enemies are death
+        game4.check_enemy_alive(man_list)
+
+
+        #check if game is over
+        if game4.game_over != 0:
+            if game4.game_over == 1:
+                displays.draw_buttons(screen, displays.victory_img, 500, 60)
+                if next_stage_button.draw():
+                    scene_four()
+
+            elif game4.game_over == -1:
+                displays.draw_buttons(screen, displays.defeat_img, 500, 60)
+                if restart_button.draw():
+                    knight.reset()
+                    for mann in man_list:
+                        mann.reset()
+                    game4.current_fighter =1
+                    game4.action_cooldown = 0
+                    game4.game_over = 0
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                game4.click = True
+            else:
+                game4.click = False
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    main_menu()
+
+        pygame.display.update()
+
+
+def scene_four():
+    skip = False
+    scene_done = False
+    myfile=open('dialog4_text.txt','rt')
+    all=myfile.readlines()
+
+    dialog4 = DialogText(displays.font, all)
+    transition5 = FadeTransition(game_instruction, displays.screen_width, displays.screen_height)
+
+    run = True
+    while run:
+        displays.draw_bg(screen, displays.scene3_bg)
+        clock.tick(fps)
+        pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
+
+        #run the message
+        dialog4.running_message(screen)
+
+        #show character in corresponding part of story
+        dialog4.scene_4_function(displays.boy_icon, displays.boy_text_icon, displays.man_icon, displays.man_text_icon, screen)
+        
+        skip_button = Button(screen, 820, 50, displays.skip_button, 330, 50)
+        skip_button.draw()
+
+        #when user skips or user have done the scene, then run transition
+        if skip or scene_done:
+            transition5.running()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                sys.exit()
+            
+            #press enter or space to move on to next dialog
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    dialog4.checking_message_done()
+                    if(dialog4.active_message == 14):
+                        scene_done = True
+                if event.key == pygame.K_ESCAPE:
+                    main_menu()
+                
+                #press s to skip
+                if event.key == pygame.K_s:
+                    skip=True
+            
+            #click to move on to next dialog
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    dialog4.checking_message_done()
+        
         pygame.display.update()
 
 

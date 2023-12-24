@@ -57,6 +57,31 @@ class Displaying():
         self.fight1 = pygame.image.load("Assets/images/icon/fight1.png").convert_alpha()
         self.fight1 = pygame.transform.scale(self.fight1, (self.fight1.get_width()*0.35, self.fight1.get_height()*0.35))
 
+        self.fight2 = pygame.image.load("Assets/images/icon/fight2.png").convert_alpha()
+        self.fight2 = pygame.transform.scale(self.fight2, (self.fight2.get_width()*0.3, self.fight2.get_height()*0.3))
+
+        self.fight3 = pygame.image.load("Assets/images/icon/fight3.png").convert_alpha()
+        self.fight3 = pygame.transform.scale(self.fight3, (self.fight3.get_width()*0.3, self.fight3.get_height()*0.3))
+
+        self.fight4 = pygame.image.load("Assets/images/icon/fight4.png").convert_alpha()
+        self.fight4 = pygame.transform.scale(self.fight4, (self.fight4.get_width()*0.3, self.fight4.get_height()*0.3))
+
+        self.object_scroll = pygame.image.load("Assets/images/icon/object_scroll.png").convert_alpha()
+
+        self.scene2_bg = pygame.image.load("Assets/images/background/scene_2.png").convert_alpha()
+        self.scene2_bg = pygame.transform.scale(self.scene2_bg, (self.scene2_bg.get_width()*0.7, self.scene2_bg.get_height()*0.46))
+
+        self.castle = pygame.image.load("Assets/images/icon/castle.png").convert_alpha()
+
+        self.scene3_bg = pygame.image.load("Assets/images/background/scene_3.png").convert_alpha()
+        self.scene3_bg = pygame.transform.scale(self.scene3_bg, (self.scene3_bg.get_width(), self.scene3_bg.get_height()*0.8))
+
+        self.man_icon = pygame.image.load("Assets/images/icon/man_icon.png").convert_alpha()
+        self.man_icon = pygame.transform.scale(self.man_icon, (self.man_icon.get_width()*3, self.man_icon.get_height()*3))
+
+        self.man_text_icon = pygame.image.load("Assets/images/icon/man_text_icon.png").convert_alpha()
+        self.man_text_icon = pygame.transform.scale(self.man_text_icon, (self.man_text_icon.get_width()*0.35, self.man_text_icon.get_height()*0.35))
+
         #text
         self.font =pygame.font.Font('Assets/font/Pixeltype.ttf',40)
 
@@ -69,9 +94,17 @@ class Displaying():
         screen.blit(self.panel_image, (0, screen_height - bottom_panel))
         #show knight stats
         self.draw_text(f'{knight.name} HP: {knight.hp}', self.font, (255,0,0), 135, screen_height-bottom_panel+25, screen, 40)
-        #show bandit stats
+        
+        #show enemy stats
         for count, i in enumerate(enemy_list):
-            self.draw_text(f'Black Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
+            if i.name == "Wolf1":
+                self.draw_text(f'Black Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
+            elif i.name == "Wolf2":
+                self.draw_text(f'White Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
+            elif i.name == "Wolf3":
+                self.draw_text(f'Red Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
+            elif i.name == "Man":
+                self.draw_text(f'Man HP: {i.hp}', self.font, (255,0,0), 610, screen_height-bottom_panel+25 + count*60, screen, 40)
 
     def draw_text (self, text, font, text_col, x, y, screen, size):
         self.font =pygame.font.Font('Assets/font/Pixeltype.ttf',size)
@@ -93,5 +126,6 @@ class FadeTransition():
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.transition = Transition(self.next_state, self.screen_width, self.screen_height)
+
     def running(self):
         self.transition.play()

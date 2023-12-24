@@ -82,12 +82,47 @@ class Fighter():
                 img = pygame.transform.scale(img, (img.get_width()*1.7, img.get_height()*1.7))
                 temp_list.append(img)
             self.animation_list.append(temp_list)
+        
+
+        elif self.name == 'Man':
+            #idle images
+            temp_list = []
+            for i in range(5):
+                img = pygame.image.load(f"Assets/images/{self.name}/Idle/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*2, img.get_height()*2))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #attack images
+            temp_list = []
+            for i in range(5):
+                img = pygame.image.load(f"Assets/images/{self.name}/Attack/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*2, img.get_height()*2))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #hurt images
+            temp_list = []
+            for i in range(2):
+                img = pygame.image.load(f"Assets/images/{self.name}/Hurt/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*2, img.get_height()*2))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #death images
+            temp_list = []
+            for i in range(8):
+                img = pygame.image.load(f"Assets/images/{self.name}/Death/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*2, img.get_height()*2))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
 
 
         self.image = self.animation_list[self.action][self.frame_index]
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
     
+
     def update(self):
         animation_cooldown = 100
         self.image = self.animation_list[self.action][self.frame_index]

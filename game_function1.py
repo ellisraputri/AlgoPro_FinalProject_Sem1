@@ -2,10 +2,10 @@ import pygame
 from DamageText import DamageText
 
 class GameFunctions1():
-    def __init__(self):
+    def __init__(self, total_fighters):
         #game variable
         self.current_fighter = 1
-        self.total_fighters = 3
+        self.total_fighters = total_fighters
         self.action_cooldown = 0
         self.action_waittime = 90
         self.attack = False
