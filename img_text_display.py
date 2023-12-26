@@ -66,6 +66,9 @@ class Displaying():
         self.fight4 = pygame.image.load("Assets/images/icon/fight4.png").convert_alpha()
         self.fight4 = pygame.transform.scale(self.fight4, (self.fight4.get_width()*0.3, self.fight4.get_height()*0.3))
 
+        self.fight5 = pygame.image.load("Assets/images/icon/fight5.png").convert_alpha()
+        self.fight5 = pygame.transform.scale(self.fight5, (self.fight5.get_width()*0.3, self.fight5.get_height()*0.3))
+
         self.object_scroll = pygame.image.load("Assets/images/icon/object_scroll.png").convert_alpha()
 
         self.scene2_bg = pygame.image.load("Assets/images/background/scene_2.png").convert_alpha()
@@ -81,6 +84,25 @@ class Displaying():
 
         self.man_text_icon = pygame.image.load("Assets/images/icon/man_text_icon.png").convert_alpha()
         self.man_text_icon = pygame.transform.scale(self.man_text_icon, (self.man_text_icon.get_width()*0.35, self.man_text_icon.get_height()*0.35))
+
+        self.find_obj_bg = pygame.image.load("Assets/images/background/find_obj_bg.jpg").convert_alpha()
+        self.find_obj_bg = pygame.transform.scale(self.find_obj_bg, (self.find_obj_bg.get_width()*1.1, self.find_obj_bg.get_height()*1.25))
+
+        #object images in the finding object list
+        self.object_images=[]
+        for i in range(1,10):
+            image = pygame.image.load(f"Assets/images/Objects/{i}.png").convert_alpha()
+            self.object_images.append(image)
+        
+        #object images in the finding object background
+        self.object_images_in_bg = []
+        for j in range(1,10):
+            bg_object = pygame.image.load(f"Assets/images/Objects/dark{j}.png").convert_alpha()
+            self.object_images_in_bg.append(bg_object)
+
+        self.last_fight_bg = pygame.image.load("Assets/images/background/last_fight.png").convert_alpha()
+        self.last_fight_bg = pygame.transform.scale(self.last_fight_bg, (self.last_fight_bg.get_width()*0.4, self.last_fight_bg.get_height()*0.33))
+
 
         #text
         self.font =pygame.font.Font('Assets/font/Pixeltype.ttf',40)
@@ -105,9 +127,11 @@ class Displaying():
                 self.draw_text(f'Red Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
             elif i.name == "Man":
                 self.draw_text(f'Man HP: {i.hp}', self.font, (255,0,0), 610, screen_height-bottom_panel+25 + count*60, screen, 40)
+            elif i.name == "Vampire":
+                self.draw_text(f'Vampire HP: {i.hp}', self.font, (255,0,0), 640, screen_height-bottom_panel+25 + count*60, screen, 40)
 
     def draw_text (self, text, font, text_col, x, y, screen, size):
-        self.font =pygame.font.Font('Assets/font/Pixeltype.ttf',size)
+        font =pygame.font.Font('Assets/font/Pixeltype.ttf',size)
         img = font.render(text, True, text_col)
         img_rect= img.get_rect(center = (x,y))
         screen.blit(img, img_rect)

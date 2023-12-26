@@ -116,6 +116,40 @@ class Fighter():
                 img = pygame.transform.scale(img, (img.get_width()*2, img.get_height()*2))
                 temp_list.append(img)
             self.animation_list.append(temp_list)
+        
+
+        elif self.name == 'Vampire':
+            #idle images
+            temp_list = []
+            for i in range(5):
+                img = pygame.image.load(f"Assets/images/{self.name}/Idle/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*4, img.get_height()*4))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #attack images
+            temp_list = []
+            for i in range(6):
+                img = pygame.image.load(f"Assets/images/{self.name}/Attack/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*4, img.get_height()*4))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #hurt images
+            temp_list = []
+            for i in range(2):
+                img = pygame.image.load(f"Assets/images/{self.name}/Hurt/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*4, img.get_height()*4))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
+
+            #death images
+            temp_list = []
+            for i in range(8):
+                img = pygame.image.load(f"Assets/images/{self.name}/Death/{i}.png").convert_alpha()
+                img = pygame.transform.scale(img, (img.get_width()*4, img.get_height()*4))
+                temp_list.append(img)
+            self.animation_list.append(temp_list)
 
 
         self.image = self.animation_list[self.action][self.frame_index]

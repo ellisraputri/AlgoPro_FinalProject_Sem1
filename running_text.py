@@ -1,3 +1,4 @@
+import pygame
 class DialogText:
     def __init__(self, font, messages):
         self.font = font
@@ -81,7 +82,29 @@ class DialogText:
         elif self.active_message == 1 or self.active_message == 3 or self.active_message == 4 or self.active_message == 5 or self.active_message == 7 or self.active_message == 9:
             screen.blit(man, man_rect)
             screen.blit(man_text, man_text_rect)
+    
 
+    def scene_5_function(self, boy, boy_text, vampire, vampire_text, screen):
+        boy_rect= boy.get_rect(midleft = (30, 300))
+        boy_text_rect = boy_text.get_rect(midleft =(30, 450))
+        vampire_rect = vampire.get_rect(midright = (980,280))
+        vampire_text_rect = vampire_text.get_rect(midright=(970,450))
+
+        #because there is too much dialog, for this scene, the dialog will be stored in dictionary
+        dialog_index = {"boy":[0,1,3,6,7,16], "vampire":[2,4,9,10,11,12,13,17,18,19,22]}
+
+        for key,dialog_list in dialog_index.items():
+            if key == "boy":
+                for i in dialog_list:
+                    if self.active_message == i:
+                        screen.blit(boy, boy_rect)
+                        screen.blit(boy_text, boy_text_rect)
+            
+            elif key == "vampire":
+                for i in dialog_list:
+                    if self.active_message == i:
+                        screen.blit(vampire, vampire_rect)
+                        screen.blit(vampire_text, vampire_text_rect)
         
         
         
