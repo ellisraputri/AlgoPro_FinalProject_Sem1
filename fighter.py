@@ -192,7 +192,6 @@ class Fighter():
             target.alive = False
             target.death()
 
-
         #attack animations
         self.action =1
         self.frame_index =0

@@ -1,5 +1,5 @@
 import pygame
-from DamageText import DamageText
+from damage_and_healthbar import DamageText
 from finding_object_thing import Things, ThingsInList
 
 class GameFunctions1():

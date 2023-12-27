@@ -153,3 +153,14 @@ class FadeTransition():
 
     def running(self):
         self.transition.play()
+
+
+def draw_victory_defeat(screen, image, x, y):
+    image_rect = image.get_rect(center=(x,y))
+    screen.blit(image, image_rect)
+
+def draw_text_complete (text, text_col, x, y, screen, size):
+    font =pygame.font.Font('Assets/font/Pixeltype.ttf',size)
+    img = font.render(text, True, text_col)
+    img_rect= img.get_rect(center = (x,y))
+    screen.blit(img, img_rect)
