@@ -10,7 +10,17 @@ from game_function1 import GameFunctions1, GameFunctions2
 from damage_and_healthbar import HealthBar
 from fighter import Fighter
 
-def main_menu(screen, scene_one, clock, fps, new_game_img, continue_game_img, exit_img, current_state):
+def play_bgm(music_now):
+    if pygame.mixer.music.get_busy():
+        pygame.mixer.music.fadeout(500)
+        pygame.mixer.music.unload()
+
+    pygame.mixer.music.load(music_now)
+    pygame.mixer.music.set_volume(0.4)
+    pygame.mixer.music.play(loops = -1)
+
+
+def mainmenu(screen, scene_one, clock, fps, new_game_img, continue_game_img, exit_img, current_state):
     pygame.mouse.set_visible(True)
 
     #initializing each button
@@ -53,7 +63,7 @@ class Scene():
         self.index = index
         self.end_msg_index = [18, 12, 16, 14, 23, 13]
     
-    def running(self, clock, fps, screen, skip_image, icon1, icon1_text, icon2, icon2_text, additional_icon):
+    def running(self, clock, fps, screen, skip_image, icon1, icon1_text, icon2, icon2_text, main_menu, additional_icon):
         clock.tick(fps)
 
         #run the message
@@ -71,7 +81,7 @@ class Scene():
         elif self.index ==5:
             self.dialog.scene_5_function(icon1, icon1_text, icon2, icon2_text, screen)
         elif self.index == 6:
-            self.dialog.scene_6_function(icon1, icon1_text, icon2, icon2_text, screen)
+            self.dialog.scene_6_function(icon1, icon1_text, screen)
         
         #draw skip button
         skip_button = Button(screen, 820, 50, skip_image, 330, 50)
@@ -90,22 +100,25 @@ class Scene():
             #press enter or space to move on to next dialog
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                    self.dialog.checking_message_done()
+                    self.dialog.checking_message_done(self.index)
                     if(self.dialog.active_message == self.end_msg_index[self.index-1]):
                         self.scene_done = True
+                        self.dialog.type_sound.stop()
                 if event.key == pygame.K_ESCAPE:
                     main_menu()
                 
                 #press s to skip
                 if event.key == pygame.K_s:
                     self.skip=True
+                    self.dialog.type_sound.stop()
             
             #click to move on to next dialog
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    self.dialog.checking_message_done()
+                    self.dialog.checking_message_done(self.index)
                     if(self.dialog.active_message == self.end_msg_index[self.index-1]):
                         self.scene_done = True
+                        self.dialog.type_sound.stop()
         
         pygame.display.update()
 
@@ -120,7 +133,7 @@ class GameInstruction():
         self.transition = FadeTransition(next_state, screen_width, screen_height)
         self.run = True
     
-    def running(self, clock, fps,):
+    def running(self, clock, fps, main_menu):
         clock.tick(fps)
 
         if self.scene_done:
@@ -206,7 +219,7 @@ class Game():
         #     self.game.potion = True
         
 
-    def check_game_state(self,screen, victory_img, defeat_img, next_state):
+    def check_game_state(self,screen, victory_img, defeat_img, next_state, main_menu):
         #displaying potion button
         #button click 
         if self.potion_button.draw():
@@ -274,7 +287,7 @@ class FindObject():
         self.gamef = GameFunctions2(object_images_in_bg, object_images)
 
     
-    def running(self, clock, fps, screen):
+    def running(self, clock, fps, screen, main_menu):
         #frame rate
         clock.tick(fps)
 

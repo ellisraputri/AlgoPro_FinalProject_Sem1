@@ -25,6 +25,9 @@ def main_menu():
     current_state = continue_game.getPosition(0)
     current_state_list.append(current_state)
 
+    #play music
+    game_function2.play_bgm('Assets/audio/music/main_menu.wav')
+
     #game loop
     while True:
         #draw the background image and logo
@@ -33,18 +36,24 @@ def main_menu():
 
         #if player press continue after starting a new game
         if len(current_state_list) > 1:
-            game_function2.main_menu(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-2])
+            game_function2.mainmenu(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-2])
         
         #if player press continue before starting a new game
         else:
-            game_function2.main_menu(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-1])
+            game_function2.mainmenu(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-1])
 
 
 def scene_one():
     current_state = continue_game.getPosition(1)
     current_state_list.append(current_state)
+    
+    #play music
+    game_function2.play_bgm('Assets/audio/music/scene.wav')
 
     scene_1 = Scene("Assets/story/dialog1_text.txt", 1, displays.font, game_instruction, displays.screen_width, displays.screen_height)
+
+    #first typing sound
+    scene_1.dialog.type_sound.play()
 
     while scene_1.run:
         #draw background and black panel
@@ -52,12 +61,15 @@ def scene_one():
         pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
 
         #dialog functions and event key
-        scene_1.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.vampire_icon, displays.vampire_text_icon, displays.object_scroll)
+        scene_1.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.vampire_icon, displays.vampire_text_icon, main_menu, displays.object_scroll)
 
 
 def game_instruction():
     current_state = continue_game.getPosition(2)
     current_state_list.append(current_state)
+
+    #play music
+    game_function2.play_bgm('Assets/audio/music/main_menu.wav')
 
     game_instruction_1 = GameInstruction(game_one, displays.screen_width, displays.screen_height)
 
@@ -72,12 +84,15 @@ def game_instruction():
             height+=60
         
         #event checker and functions
-        game_instruction_1.running(clock, fps)
+        game_instruction_1.running(clock, fps, main_menu)
 
 
 def game_one():
     current_state = continue_game.getPosition(3)
     current_state_list.append(current_state)
+
+    #play music
+    game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_1 = Game(screen, 270, 300, 650, 310, 'Wolf1', 15, 3, 0, 2, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
 
@@ -106,12 +121,15 @@ def game_one():
         displays.draw_text(str(game_1.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not and check click
-        game_1.check_game_state(screen, displays.victory_img, displays.defeat_img, game_two)
+        game_1.check_game_state(screen, displays.victory_img, displays.defeat_img, game_two, main_menu)
         
 
 def game_two():
     current_state = continue_game.getPosition(4)
     current_state_list.append(current_state)
+
+    #play music
+    game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_2 = Game(screen, 270, 300, 650, 310, 'Wolf2', 15, 4, 1, 2, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
 
@@ -140,12 +158,15 @@ def game_two():
         displays.draw_text(str(game_2.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not and check click
-        game_2.check_game_state(screen, displays.victory_img, displays.defeat_img, game_three)
+        game_2.check_game_state(screen, displays.victory_img, displays.defeat_img, game_three, main_menu)
 
 
 def game_three():
     current_state = continue_game.getPosition(5)
     current_state_list.append(current_state)
+
+    #play music
+    game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_3 = Game(screen, 270, 300, 650, 310, 'Wolf3', 20, 5, 2, 2, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
 
@@ -174,14 +195,20 @@ def game_three():
         displays.draw_text(str(game_3.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not, check click
-        game_3.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_two)
+        game_3.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_two, main_menu)
 
 
 def scene_two():
     current_state = continue_game.getPosition(6)
     current_state_list.append(current_state)
 
+    #play music
+    game_function2.play_bgm('Assets/audio/music/scene.wav')
+
     scene_2 = Scene("Assets/story/dialog2_text.txt", 2, displays.font, scene_three, displays.screen_width, displays.screen_height)
+    
+    #first typing sound
+    scene_2.dialog.type_sound.play()
 
     while scene_2.run:
         #draw background and black panel
@@ -189,14 +216,20 @@ def scene_two():
         pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
 
         #dialog functions and event key
-        scene_2.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, "", "", displays.castle)
+        scene_2.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, "", "",main_menu, displays.castle)
 
 
 def scene_three():
     current_state = continue_game.getPosition(7)
     current_state_list.append(current_state)
 
+    #play music
+    game_function2.play_bgm('Assets/audio/music/scene.wav')
+
     scene_3 = Scene("Assets/story/dialog3_text.txt", 3, displays.font, game_four, displays.screen_width, displays.screen_height)
+
+    #first typing sound
+    scene_3.dialog.type_sound.play()
 
     while scene_3.run:
         #draw background and black panel
@@ -204,15 +237,18 @@ def scene_three():
         pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
 
         #dialog functions and event key
-        scene_3.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.man_icon, displays.man_text_icon, "")
+        scene_3.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.man_icon, displays.man_text_icon,main_menu, "")
 
 
 def game_four():
     current_state = continue_game.getPosition(8)
     current_state_list.append(current_state)
 
-    game_4 = Game(screen, 240, 320, 700, 320, 'Man', 30, 8, 3, 1, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
+    #play music
+    game_function2.play_bgm('Assets/audio/music/battle.wav')
 
+    game_4 = Game(screen, 240, 320, 700, 320, 'Man', 30, 8, 3, 1, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
+    
     while game_4.run:
         #draw background and panel
         displays.draw_bg(screen, displays.scene3_bg)
@@ -238,14 +274,20 @@ def game_four():
         displays.draw_text(str(game_4.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not, check click
-        game_4.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_four)
+        game_4.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_four, main_menu)
 
 
 def scene_four():
     current_state = continue_game.getPosition(9)
     current_state_list.append(current_state)
 
+    #play music
+    game_function2.play_bgm('Assets/audio/music/scene.wav')
+
     scene_4 = Scene("Assets/story/dialog4_text.txt", 4, displays.font, game_instruction2, displays.screen_width, displays.screen_height)
+
+    #first typing sound
+    scene_4.dialog.type_sound.play()
 
     while scene_4.run:
         #draw background and black panel
@@ -253,12 +295,15 @@ def scene_four():
         pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
 
         #dialog functions and event key
-        scene_4.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.man_icon, displays.man_text_icon, "")
+        scene_4.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.man_icon, displays.man_text_icon,main_menu, "")
 
 
 def game_instruction2():
     current_state = continue_game.getPosition(10)
     current_state_list.append(current_state)
+
+    #play music
+    game_function2.play_bgm('Assets/audio/music/main_menu.wav')
 
     game_instruction_2 = GameInstruction(find_obj, displays.screen_width, displays.screen_height)
 
@@ -273,12 +318,15 @@ def game_instruction2():
             height+=60
         
         #event checker and functions
-        game_instruction_2.running(clock, fps)
+        game_instruction_2.running(clock, fps, main_menu)
 
 
 def find_obj():
     current_state = continue_game.getPosition(11)
     current_state_list.append(current_state)
+
+    #play music
+    game_function2.play_bgm('Assets/audio/music/finding_object.wav')
 
     find_object = FindObject(scene_five, displays.screen_width, displays.screen_height, displays.object_images_in_bg, displays.object_images)
 
@@ -289,14 +337,20 @@ def find_obj():
         displays.draw_text(f"Object: {find_object.gamef.found}/9", displays.font, 'black', 850, 130, screen, 50)
         
         #run game functions
-        find_object.running(clock, fps, screen)
+        find_object.running(clock, fps, screen, main_menu)
 
 
 def scene_five():
     current_state = continue_game.getPosition(12)
     current_state_list.append(current_state)
 
+    #play music
+    game_function2.play_bgm('Assets/audio/music/scene.wav')
+
     scene_5 = Scene("Assets/story/dialog5_text.txt", 5, displays.font, game_five, displays.screen_width, displays.screen_height)
+
+    #first typing sound
+    scene_5.dialog.type_sound.play()
 
     while scene_5.run:
         #draw background and black panel
@@ -304,12 +358,15 @@ def scene_five():
         pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
 
         #dialog functions and event key
-        scene_5.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.vampire_icon, displays.vampire_text_icon, "")
+        scene_5.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.vampire_icon, displays.vampire_text_icon,main_menu, "")
 
 
 def game_five():
     current_state = continue_game.getPosition(13)
     current_state_list.append(current_state)
+
+    #play music
+    game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_5 = Game(screen, 280, 240, 790, 180, 'Vampire', 50, 9, 5, 1, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
 
@@ -338,14 +395,20 @@ def game_five():
         displays.draw_text(str(game_5.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not, check click
-        game_5.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_six)
+        game_5.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_six, main_menu)
 
 
 def scene_six():
     current_state = continue_game.getPosition(14)
     current_state_list.append(current_state)
 
+    #play music
+    game_function2.play_bgm('Assets/audio/music/ending.mp3')
+
     scene_6 = Scene("Assets/story/dialog6_text.txt", 6, displays.font, end_scene, displays.screen_width, displays.screen_height)
+
+    #first typing sound
+    scene_6.dialog.type_sound.play()
 
     while scene_6.run:
         #draw background and black panel
@@ -353,12 +416,15 @@ def scene_six():
         pygame.draw.rect(screen, 'black', [0, 450, 1000, 300])
 
         #dialog functions and event key
-        scene_6.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, displays.vampire_icon, displays.vampire_text_icon, "")
+        scene_6.running(clock, fps, screen, displays.skip_button, displays.boy_icon, displays.boy_text_icon, "", "",main_menu, "")
 
 
 def end_scene():
     current_state = continue_game.getPosition(14)
     current_state_list.append(current_state)
+    
+    #play music
+    game_function2.play_bgm('Assets/audio/music/ending.mp3')
 
     game_end = GameInstruction(main_menu, displays.screen_width, displays.screen_height)
 
@@ -373,7 +439,7 @@ def end_scene():
             height+=60
         
         #event checker and functions
-        game_end.running(clock, fps)
+        game_end.running(clock, fps, main_menu)
 
 
 #list of all scene and game
@@ -381,6 +447,6 @@ all_function = [scene_one, scene_one, game_instruction, game_one, game_two, game
 #enable continue function
 continue_game = ContinueGame(all_function)
 
-main_menu()
+scene_two()
 
 pygame.quit()

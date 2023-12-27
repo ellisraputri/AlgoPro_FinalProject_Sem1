@@ -25,3 +25,17 @@ scroll: https://www.freepik.com/premium-vector/pixel-scroll-ribbon-ancient-manus
 brick: https://twitter.com/JoeCreates/status/1593164892219248643
 skip button:https://www.vecteezy.com/vector-art/22737175-fast-reverse-button-pixel-perfect-white-linear-ui-icon-for-dark-theme-music-player-play-video-vector-line-pictogram-isolated-user-interface-symbol-for-night-mode-editable-stroke
 scroll(list item): https://www.freepik.com/premium-vector/rolled-old-paper-pixel-art-style_22094015.htm
+
+
+music
+game: ludum dare 38 track 4     https://tallbeard.itch.io/music-loop-bundle
+find obj: ludum dare 38 track 6
+main menu: ludum dare 38 track 2
+ending: ludum dare 30 track 1
+scene: 90s kid revenge          https://clement-panchout.itch.io/yet-another-free-music-pack
+
+
+sfx
+https://pixabay.com/sound-effects/keyboard-typing-5997/
+https://pixabay.com/sound-effects/traditional-stamp-44189/
+
