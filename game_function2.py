@@ -186,6 +186,12 @@ class Game():
         #game loop
         self.run = True
 
+        #sound effects
+        self.victory_sfx = pygame.mixer.Sound("Assets/audio/sfx/victory.wav")
+        self.victory_sfx.set_volume(0.5)
+        self.defeat_sfx = pygame.mixer.Sound("Assets/audio/sfx/defeat.wav")
+        self.defeat_sfx.set_volume(0.7)
+
 
     def running(self, clock, fps, screen):
         #frame rate
@@ -212,11 +218,6 @@ class Game():
         #draw damage text
         self.game.damage_text_group.update()
         self.game.damage_text_group.draw(screen)
-
-        # #displaying potion button
-        # #button click 
-        # if self.potion_button.draw():
-        #     self.game.potion = True
         
 
     def check_game_state(self,screen, victory_img, defeat_img, next_state, main_menu):
@@ -249,6 +250,11 @@ class Game():
                 img_text_display.draw_victory_defeat(screen, victory_img, 500, 60)
                 if self.next_stage_button.draw():
                     next_state()
+                
+                #play victory music
+                # self.victory_sfx.play()
+                
+                
 
             #if enemy wins
             elif self.game.game_over == -1:
@@ -261,6 +267,9 @@ class Game():
                     self.game.current_fighter =1
                     self.game.action_cooldown = 0
                     self.game.game_over = 0
+                
+                #play defeat music
+                # self.defeat_sfx.play()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -277,7 +286,7 @@ class Game():
                     main_menu()
 
         pygame.display.update()
-
+    
 
 class FindObject():
     def __init__(self, next_state, screen_width, screen_height, object_images_in_bg, object_images):
@@ -285,7 +294,8 @@ class FindObject():
         self.transition = FadeTransition(next_state, screen_width, screen_height)
         self.run = True
         self.gamef = GameFunctions2(object_images_in_bg, object_images)
-
+        self.success_sfx = pygame.mixer.Sound("Assets/audio/sfx/findobj_success.wav")
+        self.success_sfx.set_volume(0.4)
     
     def running(self, clock, fps, screen, main_menu):
         #frame rate
@@ -301,6 +311,7 @@ class FindObject():
             for text in self.gamef.text_complete:
                 img_text_display.draw_text_complete(text, 'black', 850, text_y, screen, 60)
                 text_y += 40
+                self.success_sfx.play()
 
         if self.scene_done:
             self.transition.running()

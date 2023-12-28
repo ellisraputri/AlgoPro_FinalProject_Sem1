@@ -38,4 +38,13 @@ scene: 90s kid revenge          https://clement-panchout.itch.io/yet-another-fre
 sfx
 https://pixabay.com/sound-effects/keyboard-typing-5997/
 https://pixabay.com/sound-effects/traditional-stamp-44189/
+https://pixabay.com/sound-effects/mouse-click-153941/
+https://pixabay.com/sound-effects/swinging-staff-whoosh-strong-08-44658/
+https://pixabay.com/sound-effects/knife-slice-41231/
+https://pixabay.com/sound-effects/hurt-c-08-102842/
+https://pixabay.com/sound-effects/084373-heal-36672/
+https://pixabay.com/sound-effects/goodresult-82807/
+https://pixabay.com/sound-effects/failure-1-89170/
+https://pixabay.com/sound-effects/correct-choice-43861/
+https://pixabay.com/sound-effects/success-1-6297/
 

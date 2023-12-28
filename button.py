@@ -7,6 +7,7 @@ class Button():
         self.rect.center = (x,y)
         self.clicked = False
         self.surface = surface
+        self.click_sound = pygame.mixer.Sound('Assets/audio/sfx/click.wav')
     
     def draw(self):
         action = False
@@ -16,6 +17,7 @@ class Button():
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 action = True
                 self.clicked = True
+                self.click_sound.play()
 
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked=False

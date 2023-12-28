@@ -16,6 +16,7 @@ class GameFunctions1():
         self.game_over = 0
         self.damage_text_group = pygame.sprite.Group()
         self.game_over = 0
+        self.heal_sfx = pygame.mixer.Sound('Assets/audio/sfx/heal.wav')
     
     def reset_state(self):
         self.attack = False
@@ -59,6 +60,7 @@ class GameFunctions1():
                         self.damage_text_group.add(damage_text)
                         self.current_fighter += 1
                         self.action_cooldown=0
+                        self.heal_sfx.play()
         else:
             self.game_over = -1
         
@@ -82,6 +84,7 @@ class GameFunctions1():
                             self.damage_text_group.add(damage_text)
                             self.current_fighter += 1
                             self.action_cooldown=0
+                            self.heal_sfx.play()
 
                         #attack
                         else:
@@ -139,6 +142,9 @@ class GameFunctions2():
         #if all things have been found
         self.text_complete = ["NICE!", " ", "Press space", "to continue"]
 
+        #sfx
+        self.find_sfx = pygame.mixer.Sound("Assets/audio/sfx/findobj.wav")
+
 
     def check_clicked(self, event):
         #check if the object in the background is being clicked or not  
@@ -153,3 +159,6 @@ class GameFunctions2():
 
                 #increase number of object being found
                 self.found += 1
+
+                #play sound effects
+                self.find_sfx.play()

@@ -16,6 +16,13 @@ class Fighter():
         self.update_time = pygame.time.get_ticks()
         self.damage_text_group = pygame.sprite.Group()
 
+        #sound effects
+        self.boy_attack = pygame.mixer.Sound("Assets/audio/sfx/boy_attack.wav")
+        self.boy_attack.set_volume(0.5)
+        self.enemy_attack = pygame.mixer.Sound("Assets/audio/sfx/enemy_attack.wav")
+        self.hurt_sfx = pygame.mixer.Sound("Assets/audio/sfx/hurt.wav")
+        self.death_sfx = pygame.mixer.Sound("Assets/audio/sfx/thud.wav")
+
         if self.name == 'Boy':
             #idle images
             temp_list = []
@@ -197,6 +204,11 @@ class Fighter():
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
 
+        if self.name == 'Boy':
+            self.boy_attack.play()
+        else:
+            self.enemy_attack.play()
+
         return damage
 
 
@@ -204,11 +216,13 @@ class Fighter():
         self.action =2
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
+        self.hurt_sfx.play()
     
     def death(self):
         self.action =3
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
+        self.death_sfx.play()
     
     def reset(self):
         self.alive = True

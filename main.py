@@ -26,7 +26,7 @@ def main_menu():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/main_menu.wav')
+    #game_function2.play_bgm('Assets/audio/music/main_menu.wav')
 
     #game loop
     while True:
@@ -42,13 +42,12 @@ def main_menu():
         else:
             game_function2.mainmenu(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-1])
 
-
 def scene_one():
     current_state = continue_game.getPosition(1)
     current_state_list.append(current_state)
     
     #play music
-    game_function2.play_bgm('Assets/audio/music/scene.wav')
+    #game_function2.play_bgm('Assets/audio/music/scene.wav')
 
     scene_1 = Scene("Assets/story/dialog1_text.txt", 1, displays.font, game_instruction, displays.screen_width, displays.screen_height)
 
@@ -69,7 +68,7 @@ def game_instruction():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/main_menu.wav')
+    #game_function2.play_bgm('Assets/audio/music/main_menu.wav')
 
     game_instruction_1 = GameInstruction(game_one, displays.screen_width, displays.screen_height)
 
@@ -92,7 +91,7 @@ def game_one():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/battle.wav')
+    #game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_1 = Game(screen, 270, 300, 650, 310, 'Wolf1', 15, 3, 0, 2, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
 
@@ -122,14 +121,14 @@ def game_one():
         
         #check if game over or not and check click
         game_1.check_game_state(screen, displays.victory_img, displays.defeat_img, game_two, main_menu)
-        
+
 
 def game_two():
     current_state = continue_game.getPosition(4)
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/battle.wav')
+    #game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_2 = Game(screen, 270, 300, 650, 310, 'Wolf2', 15, 4, 1, 2, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
 
@@ -166,7 +165,7 @@ def game_three():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/battle.wav')
+    #game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_3 = Game(screen, 270, 300, 650, 310, 'Wolf3', 20, 5, 2, 2, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
 
@@ -203,7 +202,7 @@ def scene_two():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/scene.wav')
+    #game_function2.play_bgm('Assets/audio/music/scene.wav')
 
     scene_2 = Scene("Assets/story/dialog2_text.txt", 2, displays.font, scene_three, displays.screen_width, displays.screen_height)
     
@@ -224,7 +223,7 @@ def scene_three():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/scene.wav')
+    #game_function2.play_bgm('Assets/audio/music/scene.wav')
 
     scene_3 = Scene("Assets/story/dialog3_text.txt", 3, displays.font, game_four, displays.screen_width, displays.screen_height)
 
@@ -245,7 +244,7 @@ def game_four():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/battle.wav')
+    #game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_4 = Game(screen, 240, 320, 700, 320, 'Man', 30, 8, 3, 1, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
     
@@ -282,7 +281,7 @@ def scene_four():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/scene.wav')
+    # game_function2.play_bgm('Assets/audio/music/scene.wav')
 
     scene_4 = Scene("Assets/story/dialog4_text.txt", 4, displays.font, game_instruction2, displays.screen_width, displays.screen_height)
 
@@ -303,7 +302,7 @@ def game_instruction2():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/main_menu.wav')
+    # game_function2.play_bgm('Assets/audio/music/main_menu.wav')
 
     game_instruction_2 = GameInstruction(find_obj, displays.screen_width, displays.screen_height)
 
@@ -326,7 +325,7 @@ def find_obj():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/finding_object.wav')
+    # game_function2.play_bgm('Assets/audio/music/finding_object.wav')
 
     find_object = FindObject(scene_five, displays.screen_width, displays.screen_height, displays.object_images_in_bg, displays.object_images)
 
@@ -345,7 +344,7 @@ def scene_five():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/scene.wav')
+    # game_function2.play_bgm('Assets/audio/music/scene.wav')
 
     scene_5 = Scene("Assets/story/dialog5_text.txt", 5, displays.font, game_five, displays.screen_width, displays.screen_height)
 
@@ -366,7 +365,7 @@ def game_five():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/battle.wav')
+    # game_function2.play_bgm('Assets/audio/music/battle.wav')
 
     game_5 = Game(screen, 280, 240, 790, 180, 'Vampire', 50, 9, 5, 1, displays.screen_height, displays.bottom_panel, displays.potion_img, displays.restart_img, displays.next_stage_img)
 
@@ -403,7 +402,7 @@ def scene_six():
     current_state_list.append(current_state)
 
     #play music
-    game_function2.play_bgm('Assets/audio/music/ending.mp3')
+    # game_function2.play_bgm('Assets/audio/music/ending.mp3')
 
     scene_6 = Scene("Assets/story/dialog6_text.txt", 6, displays.font, end_scene, displays.screen_width, displays.screen_height)
 
@@ -424,7 +423,7 @@ def end_scene():
     current_state_list.append(current_state)
     
     #play music
-    game_function2.play_bgm('Assets/audio/music/ending.mp3')
+    # game_function2.play_bgm('Assets/audio/music/ending.mp3')
 
     game_end = GameInstruction(main_menu, displays.screen_width, displays.screen_height)
 
@@ -447,6 +446,6 @@ all_function = [scene_one, scene_one, game_instruction, game_one, game_two, game
 #enable continue function
 continue_game = ContinueGame(all_function)
 
-scene_two()
+game_one()
 
 pygame.quit()
