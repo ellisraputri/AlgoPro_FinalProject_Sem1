@@ -188,9 +188,10 @@ class Game():
 
         #sound effects
         self.victory_sfx = pygame.mixer.Sound("Assets/audio/sfx/victory.wav")
-        self.victory_sfx.set_volume(0.5)
+        self.victory_sfx.set_volume(0.7)
         self.defeat_sfx = pygame.mixer.Sound("Assets/audio/sfx/defeat.wav")
         self.defeat_sfx.set_volume(0.7)
+        self.play_sound = False     #to ensure the sound only play once
 
 
     def running(self, clock, fps, screen):
@@ -252,12 +253,18 @@ class Game():
                     next_state()
                 
                 #play victory music
-                # self.victory_sfx.play()
-                
+                if self.play_sound == False:
+                    self.victory_sfx.play()
+                    self.play_sound = True
                 
 
             #if enemy wins
             elif self.game.game_over == -1:
+                #play defeat music
+                if self.play_sound == False:
+                    self.defeat_sfx.play()
+                    self.play_sound = True
+
                 #draw defeat image, show restart button, and reset all the stats
                 img_text_display.draw_victory_defeat(screen, defeat_img, 500, 60)
                 if self.restart_button.draw():
@@ -267,9 +274,8 @@ class Game():
                     self.game.current_fighter =1
                     self.game.action_cooldown = 0
                     self.game.game_over = 0
+                    self.play_sound = False
                 
-                #play defeat music
-                # self.defeat_sfx.play()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -294,8 +300,11 @@ class FindObject():
         self.transition = FadeTransition(next_state, screen_width, screen_height)
         self.run = True
         self.gamef = GameFunctions2(object_images_in_bg, object_images)
+
+        #sound effects
         self.success_sfx = pygame.mixer.Sound("Assets/audio/sfx/findobj_success.wav")
         self.success_sfx.set_volume(0.4)
+        self.play_sound = False     #ensure the sfx only play once
     
     def running(self, clock, fps, screen, main_menu):
         #frame rate
@@ -311,7 +320,11 @@ class FindObject():
             for text in self.gamef.text_complete:
                 img_text_display.draw_text_complete(text, 'black', 850, text_y, screen, 60)
                 text_y += 40
-                self.success_sfx.play()
+
+                #play success sound
+                if self.play_sound == False:
+                    self.success_sfx.play()
+                    self.play_sound = True
 
         if self.scene_done:
             self.transition.running()

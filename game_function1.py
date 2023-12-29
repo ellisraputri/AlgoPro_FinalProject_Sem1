@@ -144,6 +144,7 @@ class GameFunctions2():
 
         #sfx
         self.find_sfx = pygame.mixer.Sound("Assets/audio/sfx/findobj.wav")
+        self.find_sfx.set_volume(0.7)
 
 
     def check_clicked(self, event):

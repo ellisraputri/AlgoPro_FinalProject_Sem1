@@ -18,10 +18,10 @@ class Fighter():
 
         #sound effects
         self.boy_attack = pygame.mixer.Sound("Assets/audio/sfx/boy_attack.wav")
-        self.boy_attack.set_volume(0.5)
+        self.boy_attack.set_volume(0.8)
         self.enemy_attack = pygame.mixer.Sound("Assets/audio/sfx/enemy_attack.wav")
-        self.hurt_sfx = pygame.mixer.Sound("Assets/audio/sfx/hurt.wav")
-        self.death_sfx = pygame.mixer.Sound("Assets/audio/sfx/thud.wav")
+        self.death_sfx = pygame.mixer.Sound("Assets/audio/sfx/dead.wav")
+        self.death_sfx.set_volume(0.8)
 
         if self.name == 'Boy':
             #idle images
@@ -216,7 +216,6 @@ class Fighter():
         self.action =2
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
-        self.hurt_sfx.play()
     
     def death(self):
         self.action =3
