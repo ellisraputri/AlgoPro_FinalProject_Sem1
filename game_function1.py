@@ -1,8 +1,8 @@
 import pygame
 from damage_and_healthbar import DamageText
-from finding_object_thing import Things, ThingsInList
+from finding_object_thing import Things, ThingsInList, HintCircle
 
-class GameFunctions1():
+class GameFunctionsBattle():
     def __init__(self, total_fighters):
         #game variable
         self.current_fighter = 1
@@ -113,8 +113,8 @@ class GameFunctions1():
             self.game_over = 1
     
 
-class GameFunctions2():
-    def __init__(self, images_bg, images_scroll_list):
+class GameFunctionsFind():
+    def __init__(self, images_bg, images_scroll_list, hint_images):
         #dealing with objects in the background
         self.position_dict = {1: (187,100), 2:(660, 180), 3:(60,40), 4:(430,400), 5:(370,380), 6:(600,540), 7:(20,610), 8:(430, 80), 9:(360,600)}
         self.objects_in_bg = pygame.sprite.Group()
@@ -125,7 +125,7 @@ class GameFunctions2():
         #dealing with objects in the scroll list
         self.objects_in_list = pygame.sprite.Group()
         self.tracker = 0     #to track the index of the images
-        self.y_pos = 220
+        self.y_pos = 190
         for i in range(3):
             self.x_pos = 750
             #for every three image, enter to a new line (have a new y-position)
@@ -136,15 +136,28 @@ class GameFunctions2():
                 self.tracker += 1
             self.y_pos += 120
 
+        #hint circle
+        self.position_hint_dict = {1: (187,100), 2:(660, 180), 3:(60,40), 4:(430,400), 5:(370,380), 6:(600,540), 7:(20,610), 8:(430, 80), 9:(360,600)}
+        self.hint_circle = pygame.sprite.Group()
+        for count,object_image in enumerate(hint_images):
+            image = HintCircle(self.position_dict[count+1][0], self.position_dict[count+1][1], object_image, count)
+            self.hint_circle.add(image)
+
         #keep track of number of object being found
         self.found = 0
 
         #if all things have been found
         self.text_complete = ["NICE!", " ", "Press space", "to continue"]
 
+        #hint function variables
+        self.clicked_index = []
+        self.show_index = [0,1,2,3,4,5,6,7,8]
+
         #sfx
         self.find_sfx = pygame.mixer.Sound("Assets/audio/sfx/findobj.wav")
         self.find_sfx.set_volume(0.7)
+        self.hint_sfx = pygame.mixer.Sound("Assets/audio/sfx/hint.wav")
+        self.hint_sfx.set_volume(0.8)
 
 
     def check_clicked(self, event):
@@ -157,9 +170,42 @@ class GameFunctions2():
                 for obj_in_list in self.objects_in_list:
                     if obj_in_bg.index == obj_in_list.index:
                         obj_in_list.kill()
+                
+                #if object in background is clicked, then remove the hint circle attached to that object
+                for circle in self.hint_circle:
+                    if obj_in_bg.index == circle.index:
+                        circle.kill()
 
                 #increase number of object being found
                 self.found += 1
 
                 #play sound effects
                 self.find_sfx.play()
+
+                self.clicked_index.append(obj_in_bg.index)
+            
+
+    #to check if the shown index has been clicked or not. 
+    #if it has been clicked, then we dont need to show the hint for it
+    def check_hint_circle_index(self, index_list_clicked, show_index_list):
+        for clicked in index_list_clicked:            
+            for show in show_index_list:            
+                #if the index being shown has been clicked, then remove the index
+                if show == clicked:                 
+                    show_index_list.remove(show)
+        return show_index_list
+    
+
+    #show the circle that the item hasn't been clicked
+    def run_hint_function(self, hint_button, screen):
+        self.show_index = self.check_hint_circle_index(self.clicked_index, self.show_index)
+        if hint_button.draw():
+            #draw the circle to the screen based on the show index
+            for circle in self.hint_circle:
+                if self.show_index != []:
+                    if circle.index == self.show_index[0]:
+                        circle.draw(screen)
+
+                        #play sfx
+                        self.hint_sfx.play()
+            

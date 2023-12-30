@@ -88,6 +88,8 @@ class Displaying():
         self.find_obj_bg = pygame.image.load("Assets/images/background/find_obj_bg.jpg").convert_alpha()
         self.find_obj_bg = pygame.transform.scale(self.find_obj_bg, (self.find_obj_bg.get_width()*1.1, self.find_obj_bg.get_height()*1.25))
 
+        self.hint_image = pygame.image.load("Assets/images/icon/hint.png").convert_alpha()
+
         #object images in the finding object list
         self.object_images=[]
         for i in range(1,10):
@@ -99,6 +101,13 @@ class Displaying():
         for j in range(1,10):
             bg_object = pygame.image.load(f"Assets/images/Objects/dark{j}.png").convert_alpha()
             self.object_images_in_bg.append(bg_object)
+        
+        #circle hint in finding object
+        self.hint_circles = []
+        for k in range(1,10):
+            circle = pygame.image.load(f"Assets/images/Objects/circle.png").convert_alpha()
+            circle = pygame.transform.scale(circle, (circle.get_width()*0.2, circle.get_height()*0.2))
+            self.hint_circles.append(circle)
 
         self.last_fight_bg = pygame.image.load("Assets/images/background/last_fight.png").convert_alpha()
         self.last_fight_bg = pygame.transform.scale(self.last_fight_bg, (self.last_fight_bg.get_width()*0.4, self.last_fight_bg.get_height()*0.33))

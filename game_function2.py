@@ -3,10 +3,11 @@
 import pygame
 from button import Button
 import sys
+import random
 import img_text_display
 from running_text import DialogText
 from img_text_display import FadeTransition
-from game_function1 import GameFunctions1, GameFunctions2
+from game_function1 import GameFunctionsBattle, GameFunctionsFind
 from damage_and_healthbar import HealthBar
 from fighter import Fighter
 
@@ -157,7 +158,7 @@ class GameInstruction():
 class Game():
     def __init__(self, screen, boy_x, boy_y, enemy1_x, enemy1_y, enemy_name, enemy_hp, enemy_strength, enemy_potions, enemy_number, screen_height, bottom_panel, potion_img, restart_img, next_stage_img):
         #game function
-        self.game = GameFunctions1(enemy_number + 1)
+        self.game = GameFunctionsBattle(enemy_number + 1)
 
         #create boy
         self.knight = Fighter(boy_x, boy_y, 'Boy', 30, 12, 3)
@@ -295,18 +296,19 @@ class Game():
     
 
 class FindObject():
-    def __init__(self, next_state, screen_width, screen_height, object_images_in_bg, object_images):
+    def __init__(self, next_state, screen_width, screen_height, object_images_in_bg, object_images, hint_circles):
         self.scene_done = False
         self.transition = FadeTransition(next_state, screen_width, screen_height)
         self.run = True
-        self.gamef = GameFunctions2(object_images_in_bg, object_images)
+        self.gamef = GameFunctionsFind(object_images_in_bg, object_images, hint_circles)
 
         #sound effects
         self.success_sfx = pygame.mixer.Sound("Assets/audio/sfx/findobj_success.wav")
         self.success_sfx.set_volume(0.4)
         self.play_sound = False     #ensure the sfx only play once
+        
     
-    def running(self, clock, fps, screen, main_menu):
+    def running(self, clock, fps, screen, main_menu, hint_image):
         #frame rate
         clock.tick(fps)
 
@@ -315,7 +317,7 @@ class FindObject():
         self.gamef.objects_in_list.draw(screen)
 
         #when all of the objects have been found
-        text_y = 280
+        text_y = 240
         if self.gamef.found == 9:
             for text in self.gamef.text_complete:
                 img_text_display.draw_text_complete(text, 'black', 850, text_y, screen, 60)
@@ -325,6 +327,10 @@ class FindObject():
                 if self.play_sound == False:
                     self.success_sfx.play()
                     self.play_sound = True
+        
+        #enabling hint function
+        hint_button= Button(screen, 920, 520, hint_image, 140, 60, True)
+        self.gamef.run_hint_function(hint_button, screen)
 
         if self.scene_done:
             self.transition.running()

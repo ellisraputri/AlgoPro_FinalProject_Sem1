@@ -328,16 +328,16 @@ def find_obj():
     #play music
     game_function2.play_bgm('Assets/audio/music/finding_object.wav')
 
-    find_object = FindObject(scene_five, displays.screen_width, displays.screen_height, displays.object_images_in_bg, displays.object_images)
+    find_object = FindObject(scene_five, displays.screen_width, displays.screen_height, displays.object_images_in_bg, displays.object_images, displays.hint_circles)
 
     while find_object.run:
         #draw background and text
         screen.fill((159,118,61))
         displays.draw_buttons(screen, displays.find_obj_bg, 325, 310)
-        displays.draw_text(f"Object: {find_object.gamef.found}/9", displays.font, 'black', 850, 130, screen, 50)
+        displays.draw_text(f"Object: {find_object.gamef.found}/9", displays.font, 'black', 850, 110, screen, 50)
         
         #run game functions
-        find_object.running(clock, fps, screen, main_menu)
+        find_object.running(clock, fps, screen, main_menu, displays.hint_image)
 
 
 def scene_five():
