@@ -15,7 +15,7 @@ screen = pygame.display.set_mode((1000, 650))
 displays = Displaying()
 
 #the game title
-pygame.display.set_caption('The Boy and The Vampire')
+pygame.display.set_caption('Vampire and Boy')
 
 #to track current state
 current_state_list = []
@@ -32,7 +32,7 @@ def main_menu():
     while True:
         #draw the background image and logo
         displays.draw_bg(screen, displays.bg_main)
-        displays.draw_buttons(screen, displays.main_logo, 500, 150)
+        displays.draw_buttons(screen, displays.main_logo, 520, 150)
 
         #if player press continue after starting a new game
         if len(current_state_list) > 1:
@@ -420,7 +420,7 @@ def scene_six():
 
 
 def end_scene():
-    current_state = continue_game.getPosition(14)
+    current_state = continue_game.getPosition(15)
     current_state_list.append(current_state)
     
     #play music
