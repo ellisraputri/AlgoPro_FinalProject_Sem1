@@ -5,7 +5,7 @@ from finding_object_thing import Things, ThingsInList, HintCircle
 class GameFunctionsBattle():
     def __init__(self, total_fighters):
         #game variable
-        self.current_fighter = 1
+        self.current_fighter = 1    #1 for boy turn, 2 for first enemy, 3 for second enemy
         self.total_fighters = total_fighters
         self.action_cooldown = 0
         self.action_waittime = 90
@@ -13,7 +13,7 @@ class GameFunctionsBattle():
         self.potion = False
         self.potion_effect =15
         self.click = False
-        self.game_over = 0
+        self.game_over = 0      #0:game still run, 1:boy wins, -1:enemy win
         self.damage_text_group = pygame.sprite.Group()
         self.game_over = 0
         self.heal_sfx = pygame.mixer.Sound('Assets/audio/sfx/heal.wav')
@@ -27,13 +27,16 @@ class GameFunctionsBattle():
     
     def attack_enemy(self, enemy_list):
         for count, enemy in enumerate(enemy_list):
+            #attack enemy that being clicked
             if enemy.rect.collidepoint(self.pos):
                 if self.click == True and enemy.alive==True:
                     self.attack = True
                     self.target = enemy_list[count]
     
+
     def player_action(self, knight):
         if knight.alive == True:
+            #boy turn
             if self.current_fighter == 1:
                 self.action_cooldown +=1
                 if self.action_cooldown >= self.action_waittime:
@@ -48,12 +51,17 @@ class GameFunctionsBattle():
                         self.current_fighter += 1
                         self.action_cooldown=0
 
+                    #if there are still potions left
                     if self.potion == True:
                         if knight.potions >0:
+                            #heal with 15 hp
                             if knight.max_hp > knight.hp + self.potion_effect:
                                 self.heal_amount = self.potion_effect
+                            
+                            #if knight damage is lower than 15, then only heal till the healthbar full
                             else:
                                 self.heal_amount = knight.max_hp - knight.hp
+
                         knight.hp += self.heal_amount
                         knight.potions -=1
                         damage_text = DamageText(knight.rect.centerx, knight.rect.centery-40, str(self.heal_amount), (0,255,0))
@@ -137,7 +145,6 @@ class GameFunctionsFind():
             self.y_pos += 120
 
         #hint circle
-        self.position_hint_dict = {1: (187,100), 2:(660, 180), 3:(60,40), 4:(430,400), 5:(370,380), 6:(600,540), 7:(20,610), 8:(430, 80), 9:(360,600)}
         self.hint_circle = pygame.sprite.Group()
         for count,object_image in enumerate(hint_images):
             image = HintCircle(self.position_dict[count+1][0], self.position_dict[count+1][1], object_image, count)

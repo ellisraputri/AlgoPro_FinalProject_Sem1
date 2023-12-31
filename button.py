@@ -14,18 +14,23 @@ class Button():
         action = False
         pos = pygame.mouse.get_pos()
 
+        #if mouse position collide with the button
         if self.rect.collidepoint(pos):
+            #if mouse get press
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 action = True
                 self.clicked = True
                 if self.hint == False:
                     self.click_sound.play()
 
+        #if mouse doesn't get pressed
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked=False
         
+        #draw button
         self.surface.blit(self.image, (self.rect.x, self.rect.y))
 
+        #return whether the mouse being clicked or not
         return action
 
     

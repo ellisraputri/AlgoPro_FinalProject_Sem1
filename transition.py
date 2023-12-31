@@ -2,7 +2,6 @@ import pygame
 
 class Transition:
 	def __init__(self, next_state, screen_width, screen_height):	
-		#basic setup
 		self.display_surface = pygame.display.get_surface()
 		self.next_state = next_state
 
@@ -12,7 +11,7 @@ class Transition:
 		self.speed = -2
 
 	def play(self):
-		#playing color transition from black to white
+		#playing color transition
 		self.color += self.speed
 		if self.color <= 0:
 			self.speed *= -1

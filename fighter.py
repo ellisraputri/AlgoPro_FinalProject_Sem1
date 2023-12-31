@@ -179,13 +179,13 @@ class Fighter():
             else:
                 self.idle()
 
-
+    #idle animation
     def idle(self):
         self.action =0
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
 
-    
+
     def attack (self, target):
         #deal damage to enemy
         rand = random.randint(-5, 5)
@@ -199,11 +199,12 @@ class Fighter():
             target.alive = False
             target.death()
 
-        #attack animations
+        #attack animation
         self.action =1
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
 
+        #sfx for attack animations
         if self.name == 'Boy':
             self.boy_attack.play()
         else:
@@ -211,18 +212,20 @@ class Fighter():
 
         return damage
 
-
+    #hurt animation
     def hurt(self):
         self.action =2
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
     
+    #death animation
     def death(self):
         self.action =3
         self.frame_index =0
         self.update_time = pygame.time.get_ticks()
         self.death_sfx.play()
     
+    #restart 
     def reset(self):
         self.alive = True
         self.potions = self.start_potions
@@ -231,5 +234,6 @@ class Fighter():
         self.action = 0
         self.update_time = pygame.time.get_ticks()
     
+    #animation draw
     def draw(self, surf):
         surf.blit(self.image, self.rect)

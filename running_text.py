@@ -13,21 +13,29 @@ class DialogText:
         self.thud_sound = pygame.mixer.Sound('Assets/audio/sfx/thud.wav')
     
     def running_message(self, screen):
+        #to restrict how many text can be blit at a time
         if self.counter < self.speed * len(self.message):
             self.counter += 1
         elif self.counter >= self.speed*len(self.message):
             self.done = True
+
+        #for a frame, only display some of the message snip. 
+        #So, when running it, it looks like animations of a running text
         self.snip = self.font.render(self.message[0:self.counter//self.speed], True, 'white')
         screen.blit(self.snip, (30,525))
     
     def checking_message_done(self, index):
+        #play typing sound
         self.type_sound.play()
+
+        #if done, run next message in the list
         if self.done==True and self.active_message < len(self.messages)-1:
             self.active_message +=1
             self.done = False
             self.message = self.messages[self.active_message]
             self.counter = 0
         
+        #several restrictions for the first cutscene
         if index == 1:
             if self.active_message ==12:
                 self.type_sound.stop()
@@ -35,10 +43,13 @@ class DialogText:
                 self.type_sound.stop()
                 self.thud_sound.play()
 
+        #restriction for second cutscene
         elif index == 2:
             if self.active_message ==9:
                 self.type_sound.stop()
             
+            
+    #show the character based on their dialog
     def scene_1_function(self, boy, boy_text, vampire, vampire_text, scroll, screen):
         boy_rect= boy.get_rect(midleft = (30, 300))
         boy_text_rect = boy_text.get_rect(midleft =(30, 450))
@@ -57,6 +68,7 @@ class DialogText:
         elif self.active_message == 12:
             screen.blit(scroll, scroll_rect)
     
+
     def scene_2_function(self, boy, boy_text, castle, screen):
         boy_rect= boy.get_rect(midleft = (30, 320))
         boy_text_rect = boy_text.get_rect(midleft =(30, 450))
@@ -69,6 +81,7 @@ class DialogText:
         elif self.active_message == 9:
             screen.blit(castle,castle_rect)
     
+
     def scene_3_function(self, boy, boy_text, man, man_text, screen):
         boy_rect= boy.get_rect(midleft = (30, 350))
         boy_text_rect = boy_text.get_rect(midleft =(30, 450))
@@ -83,6 +96,7 @@ class DialogText:
             screen.blit(man, man_rect)
             screen.blit(man_text, man_text_rect)
     
+
     def scene_4_function(self, boy, boy_text, man, man_text, screen):
         boy_rect= boy.get_rect(midleft = (30, 350))
         boy_text_rect = boy_text.get_rect(midleft =(30, 450))
@@ -96,7 +110,7 @@ class DialogText:
         elif self.active_message == 1 or self.active_message == 3 or self.active_message == 4 or self.active_message == 5 or self.active_message == 7 or self.active_message == 9:
             screen.blit(man, man_rect)
             screen.blit(man_text, man_text_rect)
-    
+
 
     def scene_5_function(self, boy, boy_text, vampire, vampire_text, screen):
         boy_rect= boy.get_rect(midleft = (30, 300))
@@ -104,7 +118,7 @@ class DialogText:
         vampire_rect = vampire.get_rect(midright = (980,280))
         vampire_text_rect = vampire_text.get_rect(midright=(970,450))
 
-        #because there is too much dialog, for this scene, the dialog will be stored in dictionary
+        #because there is too much dialog, for this scene, the dialog index will be stored in dictionary
         dialog_index = {"boy":[0,1,3,6,7,16], "vampire":[2,4,9,10,11,12,13,17,18,19,22]}
 
         for key,dialog_list in dialog_index.items():
@@ -119,7 +133,7 @@ class DialogText:
                     if self.active_message == i:
                         screen.blit(vampire, vampire_rect)
                         screen.blit(vampire_text, vampire_text_rect)
-    
+
 
     def scene_6_function(self, boy, boy_text, screen):
         boy_rect= boy.get_rect(midleft = (30, 300))

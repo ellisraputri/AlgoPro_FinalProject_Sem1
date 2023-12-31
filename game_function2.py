@@ -3,7 +3,7 @@
 import pygame
 from button import Button
 import sys
-import random
+import math
 import img_text_display
 from running_text import DialogText
 from img_text_display import FadeTransition
@@ -12,42 +12,61 @@ from damage_and_healthbar import HealthBar
 from fighter import Fighter
 
 def play_bgm(music_now):
+    #unload previous music
     if pygame.mixer.music.get_busy():
         pygame.mixer.music.fadeout(500)
         pygame.mixer.music.unload()
 
+    #load the new corresponding music
     pygame.mixer.music.load(music_now)
     pygame.mixer.music.set_volume(0.4)
     pygame.mixer.music.play(loops = -1)
 
 
-def mainmenu(screen, scene_one, clock, fps, new_game_img, continue_game_img, exit_img, current_state):
-    pygame.mouse.set_visible(True)
+class MainMenu():
+    def __init__(self, main_bg, screen_width):
+        self.bg_width = main_bg.get_width()
+        self.tiles = math.ceil(screen_width/self.bg_width) + 1
+        self.scroll = 0 
+        self.main_bg = main_bg
+    
+    def scroll_background(self, screen):
+        #draw the background image
+        for i in range (0, self.tiles):
+            screen.blit(self.main_bg, (i * self.bg_width + self.scroll, 0))
+        
+        #scroll background 
+        self.scroll -= 2
+        if abs(self.scroll) > self.bg_width:
+            self.scroll = 0    
 
-    #initializing each button
-    new_game = Button(screen, 520, 320, new_game_img, 300, 100)
-    continue_game = Button(screen, 520, 440, continue_game_img, 300, 100)
-    exit_game = Button(screen, 520,560, exit_img, 300, 100)
+    def running(self, screen, scene_one, clock, fps, new_game_img, continue_game_img, exit_img, current_state):
+        pygame.mouse.set_visible(True)
 
-    #each button click
-    if new_game.draw():
-        scene_one()
+        #initializing each button
+        new_game = Button(screen, 520, 320, new_game_img, 300, 100)
+        continue_game = Button(screen, 520, 440, continue_game_img, 300, 100)
+        exit_game = Button(screen, 520,560, exit_img, 300, 100)
 
-    elif continue_game.draw():
-        current_state()
+        #each button click
+        if new_game.draw():
+            scene_one()
 
-    elif exit_game.draw():
-        pygame.quit()
-        sys.exit()
+        elif continue_game.draw():
+            current_state()
 
-    #event checker 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        elif exit_game.draw():
             pygame.quit()
             sys.exit()
 
-    pygame.display.update()
-    clock.tick(fps)
+        #event checker 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        pygame.display.update()
+        clock.tick(fps)
 
 
 class Scene():
@@ -65,6 +84,7 @@ class Scene():
         self.end_msg_index = [18, 12, 16, 14, 23, 13]
     
     def running(self, clock, fps, screen, skip_image, icon1, icon1_text, icon2, icon2_text, main_menu, additional_icon):
+        #frame rate
         clock.tick(fps)
 
         #run the message
@@ -98,13 +118,17 @@ class Scene():
                 self.run = False
                 sys.exit()
             
-            #press enter or space to move on to next dialog
             if event.type == pygame.KEYDOWN:
+                #press enter or space to move on to next dialog
                 if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                     self.dialog.checking_message_done(self.index)
+
+                    #checking what index number each dialog is done
                     if(self.dialog.active_message == self.end_msg_index[self.index-1]):
                         self.scene_done = True
-                        self.dialog.type_sound.stop()
+                        self.dialog.type_sound.stop()      #stop the typing sfx
+
+                #press escape to go to main menu 
                 if event.key == pygame.K_ESCAPE:
                     main_menu()
                 
@@ -135,20 +159,25 @@ class GameInstruction():
         self.run = True
     
     def running(self, clock, fps, main_menu):
+        #frame rate
         clock.tick(fps)
 
+        #if scene done, run transition to next state
         if self.scene_done:
             self.transition.running()
 
+        #event checker
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.run = False
                 sys.exit()
-            
-            #press space to move on 
+             
             if event.type == pygame.KEYDOWN:
+                #press space to move on
                 if event.key == pygame.K_SPACE:
                     self.scene_done = True
+                
+                #press escape to main menu
                 if event.key == pygame.K_ESCAPE:
                     main_menu()
         
@@ -194,7 +223,6 @@ class Game():
         self.defeat_sfx.set_volume(0.7)
         self.play_sound = False     #to ensure the sound only play once
 
-
     def running(self, clock, fps, screen):
         #frame rate
         clock.tick(fps)
@@ -220,7 +248,6 @@ class Game():
         #draw damage text
         self.game.damage_text_group.update()
         self.game.damage_text_group.draw(screen)
-        
 
     def check_game_state(self,screen, victory_img, defeat_img, next_state, main_menu):
         #displaying potion button
@@ -239,17 +266,16 @@ class Game():
             #check all action
             self.game.check_turn()
         
-        
         #check if all enemies are death
         self.game.check_enemy_alive(self.enemy_list)
-
 
         #check if game is over
         if self.game.game_over != 0:
             #if player wins
             if self.game.game_over == 1:
                 #draw victory image and show next stage button
-                img_text_display.draw_victory_defeat(screen, victory_img, 500, 60)
+                victory_rect = victory_img.get_rect(center=(500,60))
+                screen.blit(victory_img, victory_rect)
                 if self.next_stage_button.draw():
                     next_state()
                 
@@ -257,7 +283,6 @@ class Game():
                 if self.play_sound == False:
                     self.victory_sfx.play()
                     self.play_sound = True
-                
 
             #if enemy wins
             elif self.game.game_over == -1:
@@ -267,7 +292,8 @@ class Game():
                     self.play_sound = True
 
                 #draw defeat image, show restart button, and reset all the stats
-                img_text_display.draw_victory_defeat(screen, defeat_img, 500, 60)
+                defeat_rect = defeat_img.get_rect(center=(500,60))
+                screen.blit(defeat_img, defeat_rect)
                 if self.restart_button.draw():
                     self.knight.reset()
                     for enemy in self.enemy_list:
@@ -276,19 +302,20 @@ class Game():
                     self.game.action_cooldown = 0
                     self.game.game_over = 0
                     self.play_sound = False
-                
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.run = False
                 sys.exit()
 
+            #track left mouse click
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.game.click = True
             else:
                 self.game.click = False
             
             if event.type == pygame.KEYDOWN:
+                #press escape to go to main menu
                 if event.key == pygame.K_ESCAPE:
                     main_menu()
 
@@ -306,7 +333,6 @@ class FindObject():
         self.success_sfx = pygame.mixer.Sound("Assets/audio/sfx/findobj_success.wav")
         self.success_sfx.set_volume(0.4)
         self.play_sound = False     #ensure the sfx only play once
-        
     
     def running(self, clock, fps, screen, main_menu, hint_image):
         #frame rate
@@ -319,6 +345,7 @@ class FindObject():
         #when all of the objects have been found
         text_y = 240
         if self.gamef.found == 9:
+            #display congrats text
             for text in self.gamef.text_complete:
                 img_text_display.draw_text_complete(text, 'black', 850, text_y, screen, 60)
                 text_y += 40
@@ -332,6 +359,7 @@ class FindObject():
         hint_button= Button(screen, 920, 520, hint_image, 140, 60, True)
         self.gamef.run_hint_function(hint_button, screen)
 
+        #run transition when scene done
         if self.scene_done:
             self.transition.running()
 
@@ -340,13 +368,16 @@ class FindObject():
                 self.run = False
                 sys.exit()
             
-            #press space to move on to next dialog
             if event.type == pygame.KEYDOWN:
+                #press space to move on 
                 if event.key == pygame.K_SPACE:
                     self.scene_done = True
+                
+                #press escape to go to main menu
                 if event.key == pygame.K_ESCAPE:
                     main_menu()
             
+            #check each click
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.gamef.check_clicked(event)

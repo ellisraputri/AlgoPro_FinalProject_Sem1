@@ -1,8 +1,9 @@
 import pygame
 import game_function2
-from game_function2 import Scene, GameInstruction, Game, FindObject
+from game_function2 import Scene, GameInstruction, Game, FindObject, MainMenu
 from img_text_display import Displaying
 from continue_game import ContinueGame
+import math
 
 pygame.init()
 
@@ -28,22 +29,27 @@ def main_menu():
     #play music
     game_function2.play_bgm('Assets/audio/music/main_menu.wav')
 
+    main_menu_obj = MainMenu(displays.bg_main, displays.screen_width)
+
     #game loop
     while True:
-        #draw the background image and logo
-        displays.draw_bg(screen, displays.bg_main)
+        #draw background
+        main_menu_obj.scroll_background(screen)
+
+        #draw logo
         displays.draw_buttons(screen, displays.main_logo, 520, 150)
 
         #if player press continue after starting a new game
         if len(current_state_list) > 1:
-            game_function2.mainmenu(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-2])
+            main_menu_obj.running(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-2])
         
         #if player press continue before starting a new game
         else:
-            game_function2.mainmenu(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-1])
+            main_menu_obj.running(screen, scene_one, clock, fps, displays.new_game_img, displays.continue_game_img, displays.exit_img, current_state_list[-1])
 
 
 def scene_one():
+    #track position
     current_state = continue_game.getPosition(1)
     current_state_list.append(current_state)
     
@@ -65,6 +71,7 @@ def scene_one():
 
 
 def game_instruction():
+    #track position
     current_state = continue_game.getPosition(2)
     current_state_list.append(current_state)
 
@@ -88,6 +95,7 @@ def game_instruction():
 
 
 def game_one():
+    #track position
     current_state = continue_game.getPosition(3)
     current_state_list.append(current_state)
 
@@ -125,6 +133,7 @@ def game_one():
 
 
 def game_two():
+    #track position
     current_state = continue_game.getPosition(4)
     current_state_list.append(current_state)
 
@@ -162,6 +171,7 @@ def game_two():
 
 
 def game_three():
+    #track position
     current_state = continue_game.getPosition(5)
     current_state_list.append(current_state)
 
@@ -199,6 +209,7 @@ def game_three():
 
 
 def scene_two():
+    #track position
     current_state = continue_game.getPosition(6)
     current_state_list.append(current_state)
 
@@ -220,6 +231,7 @@ def scene_two():
 
 
 def scene_three():
+    #track position
     current_state = continue_game.getPosition(7)
     current_state_list.append(current_state)
 
@@ -241,6 +253,7 @@ def scene_three():
 
 
 def game_four():
+    #track position
     current_state = continue_game.getPosition(8)
     current_state_list.append(current_state)
 
@@ -278,6 +291,7 @@ def game_four():
 
 
 def scene_four():
+    #track position
     current_state = continue_game.getPosition(9)
     current_state_list.append(current_state)
 
@@ -299,6 +313,7 @@ def scene_four():
 
 
 def game_instruction2():
+    #track position
     current_state = continue_game.getPosition(10)
     current_state_list.append(current_state)
 
@@ -322,6 +337,7 @@ def game_instruction2():
 
 
 def find_obj():
+    #track position
     current_state = continue_game.getPosition(11)
     current_state_list.append(current_state)
 
@@ -341,6 +357,7 @@ def find_obj():
 
 
 def scene_five():
+    #track position
     current_state = continue_game.getPosition(12)
     current_state_list.append(current_state)
 
@@ -362,6 +379,7 @@ def scene_five():
 
 
 def game_five():
+    #track position
     current_state = continue_game.getPosition(13)
     current_state_list.append(current_state)
 
@@ -399,6 +417,7 @@ def game_five():
 
 
 def scene_six():
+    #track position
     current_state = continue_game.getPosition(14)
     current_state_list.append(current_state)
 
@@ -420,6 +439,7 @@ def scene_six():
 
 
 def end_scene():
+    #track position
     current_state = continue_game.getPosition(15)
     current_state_list.append(current_state)
     
@@ -447,6 +467,7 @@ all_function = [scene_one, scene_one, game_instruction, game_one, game_two, game
 #enable continue function
 continue_game = ContinueGame(all_function)
 
+#starts game in the main menu
 main_menu()
 
 pygame.quit()

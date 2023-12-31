@@ -10,7 +10,7 @@ class Displaying():
 
         #images
         self.bg_main = pygame.image.load("Assets/images/background/main_menu.png").convert_alpha()
-        self.bg_main = pygame.transform.scale(self.bg_main, (self.bg_main.get_width()*1.25, self.bg_main.get_height()*1.25))
+        self.bg_main = pygame.transform.scale(self.bg_main, (self.bg_main.get_width()*0.5, self.bg_main.get_height()*1))
 
         self.main_logo = pygame.image.load("Assets/images/icon/main_menu_logo.png").convert_alpha()
         self.main_logo = pygame.transform.scale(self.main_logo, (self.main_logo.get_width()*0.5, self.main_logo.get_height()*0.5))
@@ -116,6 +116,7 @@ class Displaying():
         #text
         self.font =pygame.font.Font('Assets/font/Pixeltype.ttf',40)
 
+
     #draw functions
     def draw_bg(self,screen,background):
         screen.blit(background,(0,0))
@@ -163,10 +164,6 @@ class FadeTransition():
     def running(self):
         self.transition.play()
 
-
-def draw_victory_defeat(screen, image, x, y):
-    image_rect = image.get_rect(center=(x,y))
-    screen.blit(image, image_rect)
 
 def draw_text_complete (text, text_col, x, y, screen, size):
     font =pygame.font.Font('Assets/font/Pixeltype.ttf',size)
