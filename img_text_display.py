@@ -10,7 +10,7 @@ class Displaying():
 
         #images
         self.bg_main = pygame.image.load("Assets/images/background/main_menu.png").convert_alpha()
-        self.bg_main = pygame.transform.scale(self.bg_main, (self.bg_main.get_width()*0.5, self.bg_main.get_height()*1))
+        self.bg_main = pygame.transform.scale(self.bg_main, (self.bg_main.get_width()*0.5, self.bg_main.get_height()*1.25))
 
         self.main_logo = pygame.image.load("Assets/images/icon/main_menu_logo.png").convert_alpha()
         self.main_logo = pygame.transform.scale(self.main_logo, (self.main_logo.get_width()*0.5, self.main_logo.get_height()*0.5))

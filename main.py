@@ -3,7 +3,6 @@ import game_function2
 from game_function2 import Scene, GameInstruction, Game, FindObject, MainMenu
 from img_text_display import Displaying
 from continue_game import ContinueGame
-import math
 
 pygame.init()
 
