@@ -6,6 +6,10 @@ from continue_game import ContinueGame
 
 pygame.init()
 
+#color
+red = (255,0,0)
+white = (255,255,255)
+
 #setting the frame rate
 clock = pygame.time.Clock()
 fps = 60
@@ -86,7 +90,7 @@ def game_instruction():
         #draw text
         height = 120
         for i in game_instruction_1.all1:
-            displays.draw_text(i, displays.font, (255,255,255), 500, height, screen, 60)
+            displays.draw_text(i, displays.font, white, 500, height, screen, 60)
             height+=60
         
         #event checker and functions
@@ -125,7 +129,7 @@ def game_one():
                 displays.draw_sword(screen, game_1.game.pos)
 
         #show number potion remaining
-        displays.draw_text(str(game_1.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
+        displays.draw_text(str(game_1.knight.potions), displays.font, red, 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not and check click
         game_1.check_game_state(screen, displays.victory_img, displays.defeat_img, game_two, main_menu)
@@ -163,7 +167,7 @@ def game_two():
                 displays.draw_sword(screen, game_2.game.pos)
 
         #show number potion remaining
-        displays.draw_text(str(game_2.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
+        displays.draw_text(str(game_2.knight.potions), displays.font, red, 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not and check click
         game_2.check_game_state(screen, displays.victory_img, displays.defeat_img, game_three, main_menu)
@@ -201,7 +205,7 @@ def game_three():
                 displays.draw_sword(screen, game_3.game.pos)
 
         #show number potion remaining
-        displays.draw_text(str(game_3.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
+        displays.draw_text(str(game_3.knight.potions), displays.font, red, 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not, check click
         game_3.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_two, main_menu)
@@ -283,7 +287,7 @@ def game_four():
                 displays.draw_sword(screen, game_4.game.pos)
 
         #show number potion remaining
-        displays.draw_text(str(game_4.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
+        displays.draw_text(str(game_4.knight.potions), displays.font, red, 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not, check click
         game_4.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_four, main_menu)
@@ -328,7 +332,7 @@ def game_instruction2():
         #draw text
         height = 220
         for i in game_instruction_2.all2:
-            displays.draw_text(i, displays.font, (255,255,255), 500, height, screen, 60)
+            displays.draw_text(i, displays.font, white, 500, height, screen, 60)
             height+=60
         
         #event checker and functions
@@ -409,7 +413,7 @@ def game_five():
                 displays.draw_sword(screen, game_5.game.pos)
 
         #show number potion remaining
-        displays.draw_text(str(game_5.knight.potions), displays.font, (255,0,0), 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
+        displays.draw_text(str(game_5.knight.potions), displays.font, red, 145, displays.screen_height -displays.bottom_panel+85, screen, 40)
         
         #check if game over or not, check click
         game_5.check_game_state(screen, displays.victory_img, displays.defeat_img, scene_six, main_menu)
@@ -454,7 +458,7 @@ def end_scene():
         #draw text
         height = 250
         for i in game_end.all3:
-            displays.draw_text(i, displays.font, (255,255,255), 500, height, screen, 60)
+            displays.draw_text(i, displays.font, white, 500, height, screen, 60)
             height+=60
         
         #event checker and functions

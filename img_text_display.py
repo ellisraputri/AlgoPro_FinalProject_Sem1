@@ -1,6 +1,9 @@
 import pygame
 from transition import Transition
 
+#color
+red= (255,0,0)
+
 class Displaying():
     def __init__(self):
         #screen width and height
@@ -125,25 +128,31 @@ class Displaying():
         #draw panel rectangle
         screen.blit(self.panel_image, (0, screen_height - bottom_panel))
         #show knight stats
-        self.draw_text(f'{knight.name} HP: {knight.hp}', self.font, (255,0,0), 135, screen_height-bottom_panel+25, screen, 40)
+        self.draw_text_in_panel(f'{knight.name} HP: {knight.hp}', self.font, red, 70, screen_height-bottom_panel+25, screen, 40)
         
         #show enemy stats
         for count, i in enumerate(enemy_list):
             if i.name == "Wolf1":
-                self.draw_text(f'Black Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
+                self.draw_text_in_panel(f'Black Wolf {count+1} HP: {i.hp}', self.font, red, 550, screen_height-bottom_panel+25 + count*60, screen, 40)
             elif i.name == "Wolf2":
-                self.draw_text(f'White Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
+                self.draw_text_in_panel(f'White Wolf {count+1} HP: {i.hp}', self.font, red, 550, screen_height-bottom_panel+25 + count*60, screen, 40)
             elif i.name == "Wolf3":
-                self.draw_text(f'Red Wolf {count+1} HP: {i.hp}', self.font, (255,0,0), 660, screen_height-bottom_panel+25 + count*60, screen, 40)
+                self.draw_text_in_panel(f'Red Wolf {count+1} HP: {i.hp}', self.font, red, 550, screen_height-bottom_panel+25 + count*60, screen, 40)
             elif i.name == "Man":
-                self.draw_text(f'Man HP: {i.hp}', self.font, (255,0,0), 610, screen_height-bottom_panel+25 + count*60, screen, 40)
+                self.draw_text_in_panel(f'Man HP: {i.hp}', self.font, red, 550, screen_height-bottom_panel+25 + count*60, screen, 40)
             elif i.name == "Vampire":
-                self.draw_text(f'Vampire HP: {i.hp}', self.font, (255,0,0), 640, screen_height-bottom_panel+25 + count*60, screen, 40)
+                self.draw_text_in_panel(f'Vampire HP: {i.hp}', self.font, red, 550, screen_height-bottom_panel+25 + count*60, screen, 40)
 
     def draw_text (self, text, font, text_col, x, y, screen, size):
         font =pygame.font.Font('Assets/font/Pixeltype.ttf',size)
         img = font.render(text, True, text_col)
         img_rect= img.get_rect(center = (x,y))
+        screen.blit(img, img_rect)
+    
+    def draw_text_in_panel (self, text, font, text_col, x, y, screen, size):
+        font =pygame.font.Font('Assets/font/Pixeltype.ttf',size)
+        img = font.render(text, True, text_col)
+        img_rect= img.get_rect(midleft = (x,y))
         screen.blit(img, img_rect)
 
     def draw_sword (self, screen, pos):

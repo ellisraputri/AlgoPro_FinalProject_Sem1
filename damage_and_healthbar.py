@@ -1,5 +1,9 @@
 import pygame
 
+#colors
+red =(255,0,0)
+green = (0,255,0)
+
 class DamageText(pygame.sprite.Sprite):
     def __init__(self, x, y, damage, colour):
         pygame.sprite.Sprite.__init__(self)
@@ -32,6 +36,6 @@ class HealthBar():
         ratio = self.hp / self.max_hp
 
         #draw the red and green part of healthbar
-        pygame.draw.rect(surf, (255,0,0), (self.x, self.y, 150, 20))
-        pygame.draw.rect(surf, (0,255,0), (self.x, self.y, 150*ratio, 20))
+        pygame.draw.rect(surf, red, (self.x, self.y, 150, 20))
+        pygame.draw.rect(surf, green, (self.x, self.y, 150*ratio, 20))
 

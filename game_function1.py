@@ -2,6 +2,9 @@ import pygame
 from damage_and_healthbar import DamageText
 from finding_object_thing import Things, ThingsInList, HintCircle
 
+#color
+red = (255,0,0)
+
 class GameFunctionsBattle():
     def __init__(self, total_fighters):
         #game variable
@@ -44,7 +47,7 @@ class GameFunctionsBattle():
                         damage = knight.attack(self.target)
 
                         #create damage text
-                        damage_text = DamageText(self.target.rect.centerx, self.target.rect.centery-40, str(damage), (255,0,0))
+                        damage_text = DamageText(self.target.rect.centerx, self.target.rect.centery-40, str(damage), red)
                         self.damage_text_group.add(damage_text)
 
                         #go to next turn
@@ -99,7 +102,7 @@ class GameFunctionsBattle():
                             damage = enemy.attack(knight)
 
                             #create damage text
-                            damage_text = DamageText(knight.rect.centerx, knight.rect.centery -40, str(damage), (255,0,0))
+                            damage_text = DamageText(knight.rect.centerx, knight.rect.centery -40, str(damage), red)
                             self.damage_text_group.add(damage_text)
 
                             self.current_fighter += 1
