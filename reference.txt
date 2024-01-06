@@ -1,7 +1,15 @@
 tutorial:
 https://www.youtube.com/watch?v=0RryiSjpJn0
 https://youtube.com/playlist?list=PLjcN1EyupaQnvpv61iriF8Ax9dKra-MhZ&si=aTzLqczT_tG4VgEt
+https://www.youtube.com/watch?v=ARt6DLP38-Y&t=628s
+https://www.youtube.com/watch?v=DhK5P2bWznA
 
+
+report:
+https://www.pygame.org/wiki/about
+https://www.w3schools.com/python/module_random.asp
+https://www.geeksforgeeks.org/python-sys-module/
+https://www.w3schools.com/python/module_math.asp
 
 
 background:

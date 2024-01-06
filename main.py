@@ -466,7 +466,9 @@ def end_scene():
 
 
 #list of all scene and game
-all_function = [scene_one, scene_one, game_instruction, game_one, game_two, game_three, scene_two, scene_three, game_four, scene_four, game_instruction2, find_obj, scene_five, game_five, scene_six, end_scene]
+all_function = [scene_one, scene_one, game_instruction, game_one, game_two, 
+                game_three, scene_two, scene_three, game_four, scene_four, 
+                game_instruction2, find_obj, scene_five, game_five, scene_six, end_scene]
 #enable continue function
 continue_game = ContinueGame(all_function)
 

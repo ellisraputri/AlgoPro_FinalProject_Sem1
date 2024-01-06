@@ -4,6 +4,7 @@ from finding_object_thing import Things, ThingsInList, HintCircle
 
 #color
 red = (255,0,0)
+green = (0,255,0)
 
 class GameFunctionsBattle():
     def __init__(self, total_fighters):
@@ -18,7 +19,6 @@ class GameFunctionsBattle():
         self.click = False
         self.game_over = 0      #0:game still run, 1:boy wins, -1:enemy win
         self.damage_text_group = pygame.sprite.Group()
-        self.game_over = 0
         self.heal_sfx = pygame.mixer.Sound('Assets/audio/sfx/heal.wav')
     
     def reset_state(self):
@@ -54,8 +54,8 @@ class GameFunctionsBattle():
                         self.current_fighter += 1
                         self.action_cooldown=0
 
-                    #if there are still potions left
                     if self.potion == True:
+                        #if there are still potions left
                         if knight.potions >0:
                             #heal with 15 hp
                             if knight.max_hp > knight.hp + self.potion_effect:
@@ -65,10 +65,15 @@ class GameFunctionsBattle():
                             else:
                                 self.heal_amount = knight.max_hp - knight.hp
 
+                        #add hp based on heal amount and reduce the potions 
                         knight.hp += self.heal_amount
                         knight.potions -=1
-                        damage_text = DamageText(knight.rect.centerx, knight.rect.centery-40, str(self.heal_amount), (0,255,0))
+
+                        #display the green text showing that the boy is being healed
+                        damage_text = DamageText(knight.rect.centerx, knight.rect.centery-40, str(self.heal_amount), green)
                         self.damage_text_group.add(damage_text)
+
+                        #go to next turn and play sfx
                         self.current_fighter += 1
                         self.action_cooldown=0
                         self.heal_sfx.play()
@@ -89,10 +94,15 @@ class GameFunctionsBattle():
                                 self.heal_amount = self.potion_effect
                             else:
                                 self.heal_amount = enemy.max_hp - enemy.hp
+                            
+                            #heal and reduce potions
                             enemy.hp += self.heal_amount
                             enemy.potions -=1
-                            damage_text = DamageText(enemy.rect.centerx, enemy.rect.centery -40, str(self.heal_amount), (0,255,0))
+                            #show green text that indicates healing
+                            damage_text = DamageText(enemy.rect.centerx, enemy.rect.centery -40, str(self.heal_amount), green)
                             self.damage_text_group.add(damage_text)
+
+                            #go to next turn and play sfx
                             self.current_fighter += 1
                             self.action_cooldown=0
                             self.heal_sfx.play()
@@ -104,7 +114,7 @@ class GameFunctionsBattle():
                             #create damage text
                             damage_text = DamageText(knight.rect.centerx, knight.rect.centery -40, str(damage), red)
                             self.damage_text_group.add(damage_text)
-
+                            #go to next turn
                             self.current_fighter += 1
                             self.action_cooldown = 0
                 else:
@@ -127,7 +137,8 @@ class GameFunctionsBattle():
 class GameFunctionsFind():
     def __init__(self, images_bg, images_scroll_list, hint_images):
         #dealing with objects in the background
-        self.position_dict = {1: (187,100), 2:(660, 180), 3:(60,40), 4:(430,400), 5:(370,380), 6:(600,540), 7:(20,610), 8:(430, 80), 9:(360,600)}
+        self.position_dict = {1: (187,100), 2:(660, 180), 3:(60,40), 4:(430,400), 5:(370,380), 
+                              6:(600,540), 7:(20,610), 8:(430, 80), 9:(360,600)}
         self.objects_in_bg = pygame.sprite.Group()
         for count,object_image in enumerate(images_bg):
             image = Things(self.position_dict[count+1][0], self.position_dict[count+1][1], object_image, count)

@@ -185,7 +185,8 @@ class GameInstruction():
 
 
 class Game():
-    def __init__(self, screen, boy_x, boy_y, enemy1_x, enemy1_y, enemy_name, enemy_hp, enemy_strength, enemy_potions, enemy_number, screen_height, bottom_panel, potion_img, restart_img, next_stage_img):
+    def __init__(self, screen, boy_x, boy_y, enemy1_x, enemy1_y, enemy_name, enemy_hp, enemy_strength, enemy_potions, enemy_number, 
+                 screen_height, bottom_panel, potion_img, restart_img, next_stage_img):
         #game function
         self.game = GameFunctionsBattle(enemy_number + 1)
 
@@ -370,8 +371,9 @@ class FindObject():
             
             if event.type == pygame.KEYDOWN:
                 #press space to move on 
-                if event.key == pygame.K_SPACE:
-                    self.scene_done = True
+                if self.gamef.found == 9:
+                    if event.key == pygame.K_SPACE:
+                        self.scene_done = True
                 
                 #press escape to go to main menu
                 if event.key == pygame.K_ESCAPE:
