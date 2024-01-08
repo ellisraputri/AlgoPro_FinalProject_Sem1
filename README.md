@@ -59,18 +59,27 @@ To access the demo video, click [here](https://drive.google.com/file/d/1GCMizYZu
 ## Game Screenshots
 
 Main Menu
+
 <img src="report/screenshot/main_menu.png" alt ="Main Menu" width = "600">
 
+<br>
 Cutscene
+
 <img src="report/screenshot/cutscene.png" alt ="Cutscene" width = "600">
 
-Game Instruction
+<br>
+Game Instructions
+
 <img src="report/screenshot/game_instruction.png" alt ="Game Instruction" width = "600">
 
+<br>
 Battle
+
 <img src="report/screenshot/battle.png" alt ="Battle Scene" width = "600">
 
-Finding Object
+<br>
+Finding Objects
+
 <img src="report/screenshot/finding_object.png" alt ="Finding Object" width = "600">
 
 
