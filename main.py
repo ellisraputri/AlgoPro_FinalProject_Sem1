@@ -466,6 +466,8 @@ def end_scene():
 
 
 #list of all scene and game
+#there are two scene_one() functions here, because when the player first play the game,
+#then press the continue button, then it will automatically go to scene one, not the main menu
 all_function = [scene_one, scene_one, game_instruction, game_one, game_two, 
                 game_three, scene_two, scene_three, game_four, scene_four, 
                 game_instruction2, find_obj, scene_five, game_five, scene_six, end_scene]
